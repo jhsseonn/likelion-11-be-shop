@@ -1,9 +1,11 @@
 package com.likelion.beshop.entity;
 
+import com.likelion.beshop.constant.Role;
 import com.likelion.beshop.dto.MemberFormDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 
@@ -20,13 +22,20 @@ public class Member {
     private String email;
     private String pwd;
     private String address;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-    public static Member createMember(MemberFormDto memberFormDto){
+    public static Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder){
         Member member = new Member();
         member.setName(memberFormDto.getName());
         member.setEmail(memberFormDto.getEmail());
-        member.setPwd(memberFormDto.getPwd());
         member.setAddress(memberFormDto.getAddress());
+
+        String pwd = passwordEncoder.encode(memberFormDto.getPwd());
+        member.setPwd(pwd);
+
+        member.setRole(Role.USER);
+
         return member;
     }
 }
