@@ -17,7 +17,7 @@ public class MemberRepositoryTest {
 
     @Test
     @DisplayName("회원가입 테스트")
-    public void createMemberTest(){
+    public void createMemberTest() {
         Member member = new Member();
         member.setName("한다은");
         member.setEmail("daeunhan0723@gmail.com");
