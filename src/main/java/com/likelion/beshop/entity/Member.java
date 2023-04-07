@@ -1,7 +1,7 @@
 package com.likelion.beshop.entity;
 
+import com.likelion.beshop.constant.Role;
 import com.likelion.beshop.dto.MemberFormDto;
-import com.likelion.beshop.dto.StudentFormDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,30 +14,31 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
-
 public class Member {
-    @Id
-    @Column(name="student_id")
-    @GeneratedValue(strategy= GenerationType.AUTO)
 
+    @Id
+    @Column(name="member_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String name;
-    @Column(unique=true)
+    @Column(unique = true)
     private String email;
     private String password;
     private String address;
 
     @Enumerated(EnumType.STRING)
-    public static Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
+    private Role role;
+
+    public static Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder){
         Member member = new Member();
         member.setName(memberFormDto.getName());
         member.setEmail(memberFormDto.getEmail());
-        member.setPassword(memberFormDto.getPassword());
-        member.setAddress(memberFormDto.getAddress());
-
         String pwd = passwordEncoder.encode(memberFormDto.getPassword());
+        member.setPassword(pwd);
+        member.setRole(Role.ADMIN);
+        member.setAddress(memberFormDto.getAddress());
 
         return member;
     }
-
 }
