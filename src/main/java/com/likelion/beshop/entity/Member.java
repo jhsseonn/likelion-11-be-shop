@@ -34,7 +34,7 @@ public class Member {
         String pwd = passwordEncoder.encode(memberFormDto.getPwd());
         member.setPwd(pwd);
 
-        member.setRole(Role.USER);
+        member.setRole(Role.ADMIN);
 
         return member;
     }
