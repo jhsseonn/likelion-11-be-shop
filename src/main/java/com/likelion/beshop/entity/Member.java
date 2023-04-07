@@ -29,16 +29,17 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public static Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
+    public static Member createMember(MemberFormDto memberFormDto) {
         Member member = new Member();
         member.setName(memberFormDto.getName());
         member.setEmail(memberFormDto.getEmail());
         member.setPassword(memberFormDto.getPassword());
         member.setAddress(memberFormDto.getAddress());
-
-        String pwd = passwordEncoder.encode(memberFormDto.getPassword());
-        member.setPassword(pwd);
-        member.setRole(Role.USER);
+//        String pwd = passwordEncoder.encode(memberFormDto.getPassword());
+        //member.setPassword(member);
+        member.setPassword(memberFormDto.getPassword());
+        //member.setRole(Role.USER);
+        member.setRole(Role.ADMIN);
         return member;
     }
 }
