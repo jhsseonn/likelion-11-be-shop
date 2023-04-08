@@ -22,9 +22,12 @@ public class Member {
     private Long id;
 
     private String name;
+
     @Column(unique = true)
     private String email;
+
     private String password;
+
     private String address;
 
     @Enumerated(EnumType.STRING)
@@ -35,7 +38,7 @@ public class Member {
         member.setName(memberFormDto.getName());
         member.setEmail(memberFormDto.getEmail());
         String pwd = passwordEncoder.encode(memberFormDto.getPassword());
-        member.setPassword(memberFormDto.getPassword());
+        member.setPassword(pwd);
         member.setRole(Role.USER);
         member.setAddress(memberFormDto.getAddress());
 
