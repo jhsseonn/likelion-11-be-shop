@@ -11,8 +11,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="member")
-@Getter
-@Setter
+@Getter @Setter
 @ToString
 public class Member {
     @Id
@@ -32,14 +31,13 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public static Member createMember(MemberFormDto memberFormDto) {
+    public static Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
         Member member = new Member();
         member.setName(memberFormDto.getName());
         member.setEmail(memberFormDto.getEmail());
-        member.setPassword(memberFormDto.getPassword());
         member.setAddress(memberFormDto.getAddress());
-        //String pwd = passwordEncoder.encode(memberFormDto.getPassword());
-        //member.setPassword(pwd);
+        String pwd = passwordEncoder.encode(memberFormDto.getPassword());
+        member.setPassword(pwd);
         member.setRole(Role.ADMIN);
 
         return member;

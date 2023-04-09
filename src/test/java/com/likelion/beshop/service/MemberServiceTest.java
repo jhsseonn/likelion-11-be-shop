@@ -4,6 +4,7 @@ import com.likelion.beshop.dto.MemberFormDto;
 import com.likelion.beshop.entity.Member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,19 +23,19 @@ class MemberServiceTest {
     @Autowired
     MemberService memberService;
 
-     /*@Autowired
+    @Mock
     PasswordEncoder passwordEncoder;
-    public void setPasswordEncoder (PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }*/
+//    public void setPasswordEncoder (PasswordEncoder passwordEncoder) {
+//        this.passwordEncoder = passwordEncoder;
+//    }
 
     public Member createMember(){
         MemberFormDto memberFormDto = new MemberFormDto();
-        memberFormDto.setEmail("test");
+        memberFormDto.setEmail("test@test.com");
         memberFormDto.setName("홍길동");
         memberFormDto.setAddress("서울시 마포구 합정동");
         memberFormDto.setPassword("1234");
-        return Member.createMember(memberFormDto);
+        return Member.createMember(memberFormDto, passwordEncoder);
     }
 
     @Test
