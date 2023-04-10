@@ -28,23 +28,23 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.formLogin()
-                .loginPage("/members/login")
-                .defaultSuccessUrl("/")
+                .loginPage("/members/login") // 참고로 url 매핑은 controller 에서 함
+                .defaultSuccessUrl("/")  //성공하면 메인페이지로
                 .usernameParameter("email")
-                .failureUrl("/members/login/error")
+                .failureUrl("/members/login/error") //에러일 때
                 .and()
                 .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout"))
-                .logoutSuccessUrl("/");
+                .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout")) // 로그아웃 처리 할 때 주소
+                .logoutSuccessUrl("/"); //로그아웃 성공하면 메인페이지로
 
-        http.authorizeRequests()
-                .mvcMatchers("/css/**", "/js/**", "/img/**").permitAll()
+        http.authorizeRequests() //보안 검사하는 부분
+                .mvcMatchers("/css/**", "/js/**", "/img/**").permitAll() //모든 사용자에게 허락
                 .mvcMatchers("/", "/members/**", "/item/**", "/images/**").permitAll()
-                .mvcMatchers("/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated();
+                .mvcMatchers("/admin/**").hasRole("ADMIN") // 어드민 권한으로 회원가입 한 사람만 접근 가능하게
+                .anyRequest().authenticated(); // 접근 제한
 
         http.exceptionHandling()
-                .authenticationEntryPoint(new CustomAuthenticationEntryPoint());
+                .authenticationEntryPoint(new CustomAuthenticationEntryPoint()); // 인증 실패 커스텀 가능
 
         return http.build();
     }
