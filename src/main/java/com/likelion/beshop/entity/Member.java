@@ -5,9 +5,13 @@ import com.likelion.beshop.dto.MemberFormDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Collection;
 
 @Entity
 @Table(name="member")
@@ -34,8 +38,22 @@ public class Member {
         String pwd = passwordEncoder.encode(memberFormDto.getPwd());
         member.setPwd(pwd);
 
-        member.setRole(Role.ADMIN);
+        member.setRole(Role.USER);
 
         return member;
+    }
+
+    public interface UserDetailService{
+        UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+    }
+
+    public interface UserDetails extends Serializable {
+        Collection<? extends GrantedAuthority> getAuthorities();
+        String getPassword();
+        String getUsername();
+        boolean isAccountNonExpired();
+        boolean isAccountNonLocked();
+        boolean isCredentialsNonExpired();
+        boolean isEnabled();
     }
 }

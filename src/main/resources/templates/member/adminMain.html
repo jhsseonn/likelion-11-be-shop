@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/layout1}">
+
+<div layout:fragment="content">
+  <h1>관리자 페이지 입니다.</h1>
+</div>
+
+<div>
+  <button type="button" class="btn btn-primary" sec:authorize="isAnonymous()" onClick="location.href='/'">메인화면으로 돌아가기</button>
+</div>
+
+</html>
