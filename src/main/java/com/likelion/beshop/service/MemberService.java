@@ -1,5 +1,6 @@
 package com.likelion.beshop.service;
 
+import com.likelion.beshop.constant.Role;
 import com.likelion.beshop.entity.Member;
 import com.likelion.beshop.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,23 +21,26 @@ import java.util.Collection;
 public class MemberService implements UserDetailsService {
     private final MemberRepository memberRepository;
 
-    public Boolean isAuthenticatedAdmin(String email){
-        if (isAdmin(email))
-            return true;
-        return false;
-    }
-
     public Member saveMember(Member member){
         validateDuplicateMember(member);
         return memberRepository.save(member);
     }
 
-    private boolean isAdmin(String email){
-        Member new_member = memberRepository.findByEmail(email);
-        if (new_member.getRole().toString() != "ADMIN")
-            return false;
-        return true;
-    }
+//    public Boolean isAuthenticatedAdmin(String email){
+//        if (isAdmin(email))
+//            return true;
+//        else
+//            return false;
+//    }
+//
+//    private boolean isAdmin(String email){
+//        Member new_member = memberRepository.findByEmail(email);
+//        if (new_member.getRole().equals(Role.ADMIN)) {
+//            return true;
+//        }
+//        return false;
+//    }
+
 
     private void validateDuplicateMember(Member member){
         Member findMember = memberRepository.findByEmail(member.getEmail());

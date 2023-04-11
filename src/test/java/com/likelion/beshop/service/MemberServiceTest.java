@@ -1,5 +1,6 @@
 package com.likelion.beshop.service;
 
+import com.likelion.beshop.constant.Role;
 import com.likelion.beshop.dto.MemberFormDto;
 import com.likelion.beshop.entity.Member;
 import org.junit.jupiter.api.DisplayName;
@@ -54,5 +55,4 @@ class MemberServiceTest {
         });
         assertEquals("이미 가입된 회원입니다.", e.getMessage());
     }
-
 }
