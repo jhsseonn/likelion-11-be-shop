@@ -30,12 +30,13 @@ public class SecurityConfig {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout"))
                 .logoutSuccessUrl("/");
 
+        //보안검사(접근제한)
         http.authorizeRequests()
                 .mvcMatchers("/css/**", "/js/**", "/img/**").permitAll()
                 .mvcMatchers("/", "/members/**", "/item/**", "/images/**").permitAll()
                 .mvcMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated();
-
+        //인증 실패 시 대응
         http.exceptionHandling()
                 .authenticationEntryPoint(new CustomAuthenticationEntryPoint());
 
