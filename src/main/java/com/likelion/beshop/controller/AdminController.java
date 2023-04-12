@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class AdminController {
 
-    @GetMapping(value = "/main")
+    @GetMapping(value = "")
     public String mainAdmin(){
         return "/admin/admin";
     }
