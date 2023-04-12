@@ -1,7 +1,9 @@
 package com.likelion.beshop.controller;
 
+import com.likelion.beshop.constant.Role;
 import com.likelion.beshop.dto_.MemberFormDto;
 import com.likelion.beshop.entity.Member;
+import com.likelion.beshop.repository.MemberRepository;
 import com.likelion.beshop.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,4 +43,16 @@ public class MemberController {
         }
         return "redirect:/";
     }
+
+    @GetMapping(value = "/login")
+    public String loginMember(){
+        return "/member/MemberLoginForm";
+    }
+
+    @GetMapping(value = "/login/error")
+    public String loginError(Model model){
+        model.addAttribute("loginErrorMsg", "아이디 또는 비밀번호를 확인해주세요.");
+        return "/member/memberLoginForm";
+    }
+
 }

@@ -1,5 +1,5 @@
 package com.likelion.beshop.constant;
 
 public enum Role {
-    ADMIN,USER
+     USER
 }
