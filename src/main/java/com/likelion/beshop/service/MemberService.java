@@ -26,20 +26,20 @@ public class MemberService implements UserDetailsService {
         return memberRepository.save(member);
     }
 
-//    public Boolean isAuthenticatedAdmin(String email){
-//        if (isAdmin(email))
-//            return true;
-//        else
-//            return false;
-//    }
-//
-//    private boolean isAdmin(String email){
-//        Member new_member = memberRepository.findByEmail(email);
-//        if (new_member.getRole().equals(Role.ADMIN)) {
-//            return true;
-//        }
-//        return false;
-//    }
+    public Boolean isAuthenticatedAdmin(String email){
+        if (isAdmin(email))
+            return true;
+        else
+            return false;
+    }
+
+    private boolean isAdmin(String email){
+        Member new_member = memberRepository.findByEmail(email);
+        if (new_member.getRole().equals(Role.ADMIN)) {
+            return true;
+        }
+        return false;
+    }
 
 
     private void validateDuplicateMember(Member member){

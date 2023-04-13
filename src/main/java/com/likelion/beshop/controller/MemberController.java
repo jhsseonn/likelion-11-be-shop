@@ -36,16 +36,15 @@ public class MemberController {
         return "redirect:/members/login";
     }
 
-//    @PostMapping(value="/login")
-//    public String loginMember(@RequestParam("email") String email, Authentication authentication, Model model){
-//        if (memberService.isAuthenticatedAdmin(email))
-//            return "redirect:/admin";
-//        if (authentication.isAuthenticated()){
-//            return "redirect:/admin";
-//        }
-//        model.addAttribute("login_error", "로그인에 실패했습니다.");
-//        return "member/MemberLoginForm";
-//    }
+    @PostMapping(value="/login")
+    public String loginMember(@RequestParam("email") String email, Authentication authentication, Model model){
+        if (authentication.isAuthenticated() && memberService.isAuthenticatedAdmin(email))
+            return "redirect:/admin";
+        else if (authentication.isAuthenticated())
+            return "redirect:/";
+        model.addAttribute("login_error", "로그인에 실패했습니다.");
+        return "member/MemberLoginForm";
+    }
 
 
     @GetMapping(value="/new")

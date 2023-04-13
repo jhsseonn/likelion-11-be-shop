@@ -6,10 +6,9 @@
 
 <div layout:fragment="content">
   <h1>관리자 페이지 입니다.</h1>
-</div>
-
-<div>
-  <button type="button" class="btn btn-primary" sec:authorize="isAnonymous()" onClick="location.href='/'">메인화면으로 돌아가기</button>
+  <div>
+    <button type="button" class="btn btn-primary" sec:authorize="isAuthenticated()" onClick="location.href='/'">메인화면으로 돌아가기</button>
+  </div>
 </div>
 
 </html>
