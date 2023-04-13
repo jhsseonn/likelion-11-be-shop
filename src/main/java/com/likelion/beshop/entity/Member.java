@@ -29,19 +29,21 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public static Member createMember(MemberFormDto memberFormDto) {
+    public static Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
         Member member = new Member();
         member.setName(memberFormDto.getName());
         member.setEmail(memberFormDto.getEmail());
         member.setPassword(memberFormDto.getPassword());
         member.setAddress(memberFormDto.getAddress());
-//        String pwd = passwordEncoder.encode(memberFormDto.getPassword());
-        //member.setPassword(member);
-        member.setPassword(memberFormDto.getPassword());
-        //member.setRole(Role.USER);
-        member.setRole(Role.ADMIN);
+
+        String pwd = passwordEncoder.encode(memberFormDto.getPassword());
+        member.setPassword(pwd);
+        member.setRole(Role.USER); // USER로 접근
+        //member.setRole(Role.ADMIN); // ADMIN으로 접근
         return member;
     }
+
+
 }
 
 
