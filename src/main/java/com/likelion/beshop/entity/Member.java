@@ -39,7 +39,7 @@ public class Member {
         member.setEmail(memberFormDto.getEmail());
         String pwd = passwordEncoder.encode(memberFormDto.getPassword());
         member.setPassword(pwd);
-        member.setRole(Role.USER);
+        member.setRole(Role.ADMIN);
         member.setAddress(memberFormDto.getAddress());
 
         return member;
