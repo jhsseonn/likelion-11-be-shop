@@ -30,6 +30,7 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+
     public static Member creatMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
         Member member = new Member();
         member.setName(memberFormDto.getName());
