@@ -18,6 +18,9 @@ import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.likelion.beshop.constant.ItemSellStatus.SALE;
+import static com.likelion.beshop.constant.ItemSellStatus.SOLD;
+
 @SpringBootTest
 @Transactional
 @TestPropertySource(locations = "classpath:application-test.properties")
@@ -126,7 +129,7 @@ public class ItemRepositoryTest {
         QItem qItem = QItem.item;
         // SQL문과 비슷하게 소스코드로 작성
         JPAQuery<Item> query = queryFactory.selectFrom(qItem)
-                .where(qItem.itemSellStatus.eq(ItemSellStatus.SALE)) // 판매중인 상품 중
+                .where(qItem.itemSellStatus.eq(SALE)) // 판매중인 상품 중
                 .where(qItem.itemDetail.like("%" + "테스트 상품상세설명" + "%")) // 상세 설명에 해당 문구가 들어가는 상품을
                 .orderBy(qItem.price.desc()); // 가격이 높은순으로 내림차순 정렬
         List<Item> itemList = query.fetch(); // 리스트로 결과를 받아옴

@@ -22,6 +22,7 @@ public class Member {
     private Long id;
 
     private String name;
+
     @Column(unique = true)
     private String email;
     private String password;

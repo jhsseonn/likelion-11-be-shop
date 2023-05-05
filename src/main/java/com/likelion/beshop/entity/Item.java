@@ -28,6 +28,7 @@ public class Item {
     private Integer stock;
     @NotNull
     private String itemDetail;
+
     @Enumerated(EnumType.STRING)
     private ItemSellStatus itemSellStatus;
 
