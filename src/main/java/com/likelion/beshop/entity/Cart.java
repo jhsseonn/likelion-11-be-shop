@@ -17,7 +17,7 @@ public class Cart {
     @Column(name = "cart_id")
     private  Long id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")//외래키명 member_id
     private  Member member;
 
