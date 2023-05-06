@@ -58,10 +58,10 @@ public class CartRepositoryTest {
         em.flush(); // DB에 강제 반영
         em.clear(); // 엔티티 없을 경우 DB 조회 -> DB 확인
 
-        Cart savedCart = cartRepository.findById(cart.getId())
-                .orElseThrow(EntityNotFoundException::new);
+        Cart savedCart = cartRepository.findById(cart.getId()) // id로 Cart 엔티티 조회하고 조회된 결과를 savedCart에 할당
+                .orElseThrow(EntityNotFoundException::new); // id로 조회된 Car 엔티티가 존재하지 않으면 예외
 
-        assertEquals("error",savedCart.getMember().getId(), member.getId());
+        assertEquals("error",savedCart.getMember().getId(), member.getId()); // 처음 저장했던 멤버 id와 조회된 장바구니에서의 멤버 id가 동일한지 assertEquals로 확인
 
     }
 }

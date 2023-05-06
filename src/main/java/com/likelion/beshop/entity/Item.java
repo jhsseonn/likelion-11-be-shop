@@ -21,7 +21,7 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     // 상품명
-    @Column(unique = true, nullable = false) // unique 속성 부여(type : boolean)
+    @Column(nullable = false)
     private String name;
 
     // 가격
@@ -36,7 +36,7 @@ public class Item {
     @Column(nullable = false)
     private String detail;
 
-    // 상품 판매 상태
+    // 상품 판매 상태 => enum
     @Enumerated(EnumType.STRING)
     private ItemSellStatus status;
 

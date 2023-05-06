@@ -39,7 +39,7 @@ public class ItemRepositoryTest {
         item.setDetail("생필품입니다.");
         item.setRegisterTime(LocalDateTime.now());
         item.setUpdateTime(LocalDateTime.now());
-        Item saveItem = itemRepository.save(item); // save()함수 잘 동작하는지 확인하기 위해 saveMember 객체 생성
+        Item saveItem = itemRepository.save(item);
         System.out.println(saveItem.toString());
     }
 
@@ -52,7 +52,7 @@ public class ItemRepositoryTest {
             item.setNum(5);
             item.setRegisterTime(LocalDateTime.now());
             item.setUpdateTime(LocalDateTime.now());
-            Item saveItem = itemRepository.save(item); // save()함수 잘 동작하는지 확인하기 위해 saveMember 객체 생성
+            Item saveItem = itemRepository.save(item);
 
             item.setStatus(ItemSellStatus.SELL);
 
