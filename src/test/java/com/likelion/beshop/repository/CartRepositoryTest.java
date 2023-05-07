@@ -18,7 +18,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-import static org.springframework.test.util.AssertionErrors.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 @SpringBootTest
 @Transactional
@@ -60,7 +61,7 @@ public class CartRepositoryTest {
 
         Cart retrievedCart = entityManager.find(Cart.class, cart.getCode());
 
-        assertEquals("멤버 ID가 일치하지 않습니다.", member.getId(), retrievedCart.getMember().getId());
+        assertEquals( member.getId(), retrievedCart.getMember().getId());
 
     }
 
