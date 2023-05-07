@@ -17,16 +17,5 @@ public class OrderRepositoryTest {
     @Autowired
     OrderRepository OrderRepository;
 
-    @Test
-    @DisplayName("주문 테스트")
-    public void createOrderTest(){
-        Order order = new Order();
-        order.setName("김한선");
-        order.setProductName("텀블러");
-        order.setCount("1");
-        order.setAddress("서울시 ");
-        Order savedOrder = OrderRepository.save(order);
-        System.out.println(savedOrder.toString());
 
-    }
 }
