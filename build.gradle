@@ -47,6 +47,7 @@ dependencies {
 	// (3) queryDSL 추가
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
+	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.9'
 }
 
 tasks.named('test') {
