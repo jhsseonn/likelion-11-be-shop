@@ -22,7 +22,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long code;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private  Member member;
     private LocalDateTime date;
@@ -32,6 +32,6 @@ public class Order {
     private LocalDateTime time;
 
     private LocalDateTime editTime;
-    @OneToMany(mappedBy="order", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="order", cascade=CascadeType.ALL, orphanRemoval=true, fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();
 }

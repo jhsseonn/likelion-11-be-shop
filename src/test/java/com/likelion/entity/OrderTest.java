@@ -3,9 +3,12 @@ package com.likelion.entity;
 import com.likelion.beshop.BeShopApplication;
 import com.likelion.beshop.constant.ItemSellStatus;
 import com.likelion.beshop.entity.Item;
+import com.likelion.beshop.entity.Member;
 import com.likelion.beshop.entity.Order;
 import com.likelion.beshop.entity.OrderItem;
 import com.likelion.beshop.repository.ItemRepository;
+import com.likelion.beshop.repository.MemberRepository;
+import com.likelion.beshop.repository.OrderItemRepository;
 import com.likelion.beshop.repository.OrderRepository;
 import org.aspectj.weaver.ast.Or;
 import org.junit.jupiter.api.DisplayName;
@@ -36,12 +39,18 @@ public class OrderTest {
    @Autowired
     OrderRepository orderRepository;
 
+    @Autowired
+    MemberRepository memberRepository;
+
+    @Autowired
+    OrderItemRepository orderItemRepository;
+
     @PersistenceContext
     EntityManager em;
 
-    public Item createItem() {
+    public Item createItem(int i) {
         Item item = new Item();
-        item.setName("이름");
+        item.setName("이름"+i);
         item.setPrice(1000);
         item.setNum(1);
         item.setContent("설명");
@@ -59,7 +68,7 @@ public class OrderTest {
         Order order = new Order();
 
         for (int i = 0; i < 3; i++) {
-            Item item = this.createItem();
+            Item item = this.createItem(i);
             itemRepository.save(item);
 
             OrderItem orderItem = new OrderItem();
@@ -83,4 +92,56 @@ public class OrderTest {
 
         assertEquals(3, savedOrder.getOrderItems().size());
     }
+
+    public Order createOrder(){
+        Order order = new Order();
+
+        for (int i = 0; i < 3; i++) {
+            Item item = this.createItem(i);
+            itemRepository.save(item);
+
+            OrderItem orderItem = new OrderItem();
+            orderItem.setItem(item);
+            orderItem.setNum(3);
+            orderItem.setPrice(234);
+            orderItem.setTime(LocalDateTime.now());
+            orderItem.setEditTime(LocalDateTime.now());
+            orderItem.setOrder(order);
+
+            order.getOrderItems().add(orderItem);
+        }
+
+        Member member = new Member();
+        memberRepository.save(member);
+
+        order.setMember(member);
+        orderRepository.save(order);
+
+        return order;
+    }
+
+    @Test
+    @DisplayName("고아 객체 제거 테스트")
+    public void orphanRemovalTest(){
+        Order order = this.createOrder();
+        order.getOrderItems().remove(0);
+        em.flush();
+    }
+
+    @Test
+    @DisplayName("지연 로딩 테스트")
+    public void lazyLoadingTest(){
+        Order order = this.createOrder();
+        Long orderItemId = order.getOrderItems().get(0).getCode();
+
+        em.flush();
+        em.clear();
+
+        OrderItem orderItem = orderItemRepository.findById(orderItemId)
+                .orElseThrow(EntityNotFoundException::new);
+        System.out.println("Order class: " + orderItem.getOrder().getClass());
+
+    }
+
+
 }
