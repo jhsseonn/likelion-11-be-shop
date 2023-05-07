@@ -1,5 +1,6 @@
 package com.likelion.entity;
 
+import com.likelion.beshop.BeShopApplication;
 import com.likelion.beshop.constant.ItemSellStatus;
 import com.likelion.beshop.entity.Item;
 import com.likelion.beshop.entity.Order;
@@ -24,33 +25,19 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-@SpringBootTest
+@SpringBootTest(classes = BeShopApplication.class)
 @Transactional
 @TestPropertySource(locations = "classpath:application-test.properties")
 public class OrderTest {
 
-//    @Autowired
-//    ItemRepository itemRepository;
+    @Autowired
+    ItemRepository itemRepository;
 
-    private ItemRepository itemRepository;
-
-//    @Autowired
-    public void WireExample(ItemRepository itemRepository) {
-        this.itemRepository = itemRepository;
-    }
-
-    private OrderRepository orderRepository;
-
-    //    @Autowired
-    public void WireExample2(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
-    }
-
-//    @Autowired
-//    OrderRepository orderRepository;
+   @Autowired
+    OrderRepository orderRepository;
 
     @PersistenceContext
-    EntityManager entityManager;
+    EntityManager em;
 
     public Item createItem() {
         Item item = new Item();
@@ -73,7 +60,7 @@ public class OrderTest {
 
         for (int i = 0; i < 3; i++) {
             Item item = this.createItem();
-            itemRepository.save((item));
+            itemRepository.save(item);
 
             OrderItem orderItem = new OrderItem();
             orderItem.setItem(item);
@@ -88,7 +75,7 @@ public class OrderTest {
 
         orderRepository.saveAndFlush(order);
 
-        entityManager.clear();
+        em.clear();
 
 
         Order savedOrder = orderRepository.findById(order.getCode())
