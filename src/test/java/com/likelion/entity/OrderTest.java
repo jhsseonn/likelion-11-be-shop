@@ -56,8 +56,8 @@ public class OrderTest {
         item.setContent("설명");
         item.setStatus(ItemSellStatus.SELLING);
 
-        item.setTime(LocalDateTime.now());
-        item.setEditTime(LocalDateTime.now());
+//        item.setTime(LocalDateTime.now());
+//        item.setEditTime(LocalDateTime.now());
 
         return  item;
     }
@@ -75,8 +75,8 @@ public class OrderTest {
             orderItem.setItem(item);
             orderItem.setNum(3);
             orderItem.setPrice(234);
-            orderItem.setTime(LocalDateTime.now());
-            orderItem.setEditTime(LocalDateTime.now());
+//            orderItem.setTime(LocalDateTime.now());
+//            orderItem.setEditTime(LocalDateTime.now());
             orderItem.setOrder(order);
 
             order.getOrderItems().add(orderItem);
@@ -104,8 +104,8 @@ public class OrderTest {
             orderItem.setItem(item);
             orderItem.setNum(3);
             orderItem.setPrice(234);
-            orderItem.setTime(LocalDateTime.now());
-            orderItem.setEditTime(LocalDateTime.now());
+//            orderItem.setTime(LocalDateTime.now());
+//            orderItem.setEditTime(LocalDateTime.now());
             orderItem.setOrder(order);
 
             order.getOrderItems().add(orderItem);

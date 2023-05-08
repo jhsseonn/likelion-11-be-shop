@@ -1,6 +1,5 @@
 package com.likelion.beshop.dto;
 
-import com.likelion.beshop.constant.IsRepresentative;
 import com.likelion.beshop.entity.ItemImg;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +12,7 @@ public class ItemImgDto {
     private String imageName;
     private String originalImageName;
     private String imagePath;
-    private IsRepresentative isRepresentative;
+    private String repImage;
 
     private static ModelMapper modelMapper = new ModelMapper(); // 멤버 변수로 ModelMapper 객체를 추가
 

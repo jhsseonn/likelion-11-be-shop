@@ -1,10 +1,17 @@
 package com.likelion.beshop.entity;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@EntityListeners(value = {AuditingEntityListener.class})
+@MappedSuperclass
+@Getter
+@Setter
 // 다른 엔티티에서 상속받아 사용할 것이기 때문에 추상클래스로 설정
 public abstract class BaseTimeEntity {
 

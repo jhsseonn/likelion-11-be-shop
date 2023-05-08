@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Getter @Setter
 @ToString
 
-public class Member {
+public class Member extends BaseEntity { // BaseEntity 받아 옴
     @Id
     @Column(name="member_id")
     @GeneratedValue(strategy = GenerationType.AUTO)

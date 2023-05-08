@@ -15,7 +15,7 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-public class Item {
+public class Item extends BaseEntity{
     @Id
     @Column(name="item_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,15 +24,15 @@ public class Item {
     @Column(unique = true)
     private String name;
 
-    private int price;
+    private Integer price;
 
-    private int num;
+    private Integer num;
     private String content;
 
     @Enumerated(EnumType.STRING)
     private ItemSellStatus status;
 
-    private LocalDateTime time;
-
-    private LocalDateTime editTime;
+//    private LocalDateTime time;
+//
+//    private LocalDateTime editTime;
 }

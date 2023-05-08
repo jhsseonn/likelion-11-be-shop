@@ -16,7 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Order {
+public class Order extends BaseEntity{
     @Id
     @Column(name="Order_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,9 +29,9 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    private LocalDateTime time;
-
-    private LocalDateTime editTime;
+//    private LocalDateTime time;
+//
+//    private LocalDateTime editTime;
     @OneToMany(mappedBy="order", cascade=CascadeType.ALL, orphanRemoval=true, fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();
 }
