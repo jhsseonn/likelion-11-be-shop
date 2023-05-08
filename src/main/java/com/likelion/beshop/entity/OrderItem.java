@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name="orders_item")
 @Getter @Setter @ToString
-public class OrderItem {
+public class OrderItem extends BaseEntity{
     @Id
     @Column(name="order_item_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,6 +23,4 @@ public class OrderItem {
     private Order order;
     private Integer price;
     private Integer count;
-    private LocalDateTime uploadTime;
-    private LocalDateTime updateTime;
 }

@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="item_img")
 @Getter @Setter @ToString
-public class ItemImg {
+public class ItemImg extends BaseEntity {
     @Id
     @Column(name="item_img_id")
     @GeneratedValue(strategy = GenerationType.AUTO)

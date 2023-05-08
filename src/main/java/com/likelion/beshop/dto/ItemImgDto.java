@@ -14,7 +14,6 @@ public class ItemImgDto {
     private String imagePath;
     private String imageMainYN;
     private static ModelMapper modelMapper = new ModelMapper();
-
     public static ItemImgDto fromEntity(ItemImg itemImg) {
         return modelMapper.map(itemImg, ItemImgDto.class);
     }

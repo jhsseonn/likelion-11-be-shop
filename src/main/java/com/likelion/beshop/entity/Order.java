@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Table(name="orders")
 @Getter @Setter @ToString
-public class Order {
+public class Order extends BaseEntity{
     @Id
     @Column(name="order_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,7 +29,5 @@ public class Order {
     private LocalDateTime orderTime;
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
-    private LocalDateTime uploadTime;
-    private LocalDateTime updateTime;
 
 }

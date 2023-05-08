@@ -11,12 +11,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Entity
 @Table(name="member")
 @Getter @Setter @ToString
-public class Member {
+public class Member extends BaseEntity {
     @Id
     @Column(name="member_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,7 +39,7 @@ public class Member {
         String pwd = passwordEncoder.encode(memberFormDto.getPwd());
         member.setPwd(pwd);
 
-        member.setRole(Role.USER);
+        member.setRole(Role.ADMIN);
 
         return member;
     }
