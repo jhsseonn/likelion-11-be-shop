@@ -45,10 +45,10 @@ class ItemRepositoryTest {
     public void saveItemTest(){
 
         Item item = new Item();
-        item.setItemName("노트북");
+        item.setItemNm("노트북");
         item.setPrice(1000000);
         item.setStockNumber(10);
-        item.setDetail("최신형노트북");
+        item.setItemDetail("최신형노트북");
         item.setRegTime(LocalDateTime.now());
         item.setUpdateTime(LocalDateTime.now());
         Item savedItem = itemRepository.save(item);
@@ -60,11 +60,11 @@ class ItemRepositoryTest {
     public void createItemList(){
         for(int i=0;i<10;i++) {
             Item item = new Item();
-            item.setItemName("상품"+i);
+            item.setItemNm("상품"+i);
             item.setPrice(1000000-i);
             item.setStockNumber(10);
-            item.setDetail("최신형노트북"+i);
-            item.setSellStatus(ItemSellStatus.SALE);
+            item.setItemDetail("최신형노트북"+i);
+            item.setItemSellStatus(ItemSellStatus.SALE);
             item.setRegTime(LocalDateTime.now());
             item.setUpdateTime(LocalDateTime.now());
             Item savedItem = itemRepository.save(item);
@@ -78,7 +78,7 @@ class ItemRepositoryTest {
     public void findByItemNumTest(){
         this.createItemList();
         //Item 소문자이면 안됨
-        List<Item> itemList = itemRepository.findByItemName("상품1");
+        List<Item> itemList = itemRepository.findByItemNm("상품1");
         for(Item item : itemList){
             System.out.println(item.toString());
         }
@@ -89,7 +89,7 @@ class ItemRepositoryTest {
     public void findByItemOrTest(){
         this.createItemList();
         //Item 소문자이면 안됨
-        List<Item> itemList = itemRepository.findByItemNameOrDetail("상품3","최신형노트북1");
+        List<Item> itemList = itemRepository.findByItemNmOrItemDetail("상품3","최신형노트북1");
         for(Item item : itemList){
             System.out.println(item.toString());
         }

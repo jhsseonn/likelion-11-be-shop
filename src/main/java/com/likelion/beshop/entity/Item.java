@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 //lombok 어노테이션 사용
-public class Item {
+public class Item extends BaseEntity{
     @Id
     //기본키로 설정
     @Column(name="item_id")
@@ -32,7 +32,7 @@ public class Item {
     private Long id;                        //상품 코드
 
     @Column(nullable = false, length = 50)
-    private String itemName;                //상품명
+    private String itemNm;                //상품명
 
     @Column(name = "price", nullable = false)
     private int price;                  //상품 가격
@@ -41,14 +41,14 @@ public class Item {
     private int stockNumber;            //재고 수량
 
     @Column(nullable = false)
-    private String detail;                  //상품 상세 설명
+    private String itemDetail;                  //상품 상세 설명
 
     @Enumerated(EnumType.STRING)
-    private ItemSellStatus sellStatus;      //상품 판매 상태
+    private ItemSellStatus itemSellStatus;      //상품 판매 상태
 
     //LocalDateTime로 하는 게 맞음
-    private LocalDateTime regTime;
-    private LocalDateTime updateTime;
+    //private LocalDateTime regTime;
+    //private LocalDateTime updateTime;
 
     //상품명 변수를 받아 검색하는 메서드
 

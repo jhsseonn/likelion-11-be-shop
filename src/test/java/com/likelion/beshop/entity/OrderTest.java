@@ -41,11 +41,11 @@ class OrderTest {
     @DisplayName("아이템 생성 메소드")
     public Item createItem(){
         Item item = new Item();
-        item.setItemName("노트북");
+        item.setItemNm("노트북");
         item.setPrice(1000000);
         item.setStockNumber(10);
-        item.setDetail("최신형노트북");
-        item.setSellStatus(ItemSellStatus.SALE);
+        item.setItemDetail("최신형노트북");
+        item.setItemSellStatus(ItemSellStatus.SALE);
         item.setRegTime(LocalDateTime.now());
         item.setUpdateTime(LocalDateTime.now());
         return item;

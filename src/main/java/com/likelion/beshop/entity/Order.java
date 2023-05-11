@@ -17,7 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Order {
+public class Order extends BaseEntity{
 
     @Id
     @Column(name="order_id")
@@ -36,8 +36,8 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderstatus;
 
-    private LocalDateTime regTime;
-    private LocalDateTime updateTime;
+    //private LocalDateTime regTime;
+    //private LocalDateTime updateTime;
 
     @OneToMany(mappedBy="orders", cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();
