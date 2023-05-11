@@ -29,7 +29,5 @@ public class OrderItem {
 
     private Integer payment;
     private Integer count;
-    private LocalDateTime enrollTime;
-    private LocalDateTime modifyTime;
 
 }

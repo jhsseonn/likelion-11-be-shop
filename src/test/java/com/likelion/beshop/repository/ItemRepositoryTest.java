@@ -1,6 +1,5 @@
 package com.likelion.beshop.repository;
 
-import com.likelion.beshop.constant.ItemSellStatus;
 import com.likelion.beshop.entity.Item;
 import com.likelion.beshop.entity.QItem;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -13,13 +12,11 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
-import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.likelion.beshop.constant.ItemSellStatus.SALE;
-import static com.likelion.beshop.constant.ItemSellStatus.SOLD;
+import static com.likelion.beshop.constant.ItemSellStatus.SELL;
+
 
 @SpringBootTest
 @Transactional
@@ -36,8 +33,6 @@ public class ItemRepositoryTest {
         item.setPrice(10000);
         item.setStock(100);
         item.setItemDetail("테스트 상품 상세 설명");
-        item.setStartTime(LocalDateTime.now());
-        item.setModifyTime(LocalDateTime.now());
         Item saveItem = itemRepository.save(item);
         System.out.println(saveItem.toString());
     }
@@ -50,8 +45,6 @@ public class ItemRepositoryTest {
             item.setPrice(10000 + (i*1000));
             item.setStock(100);
             item.setItemDetail("테스트 상품상세설명" + (i+1));
-            item.setStartTime(LocalDateTime.now());
-            item.setModifyTime(LocalDateTime.now());
             Item saveItem = itemRepository.save(item);
         }
     }
@@ -129,7 +122,7 @@ public class ItemRepositoryTest {
         QItem qItem = QItem.item;
         // SQL문과 비슷하게 소스코드로 작성
         JPAQuery<Item> query = queryFactory.selectFrom(qItem)
-                .where(qItem.itemSellStatus.eq(SALE)) // 판매중인 상품 중
+                .where(qItem.itemSellStatus.eq(SELL)) // 판매중인 상품 중
                 .where(qItem.itemDetail.like("%" + "테스트 상품상세설명" + "%")) // 상세 설명에 해당 문구가 들어가는 상품을
                 .orderBy(qItem.price.desc()); // 가격이 높은순으로 내림차순 정렬
         List<Item> itemList = query.fetch(); // 리스트로 결과를 받아옴

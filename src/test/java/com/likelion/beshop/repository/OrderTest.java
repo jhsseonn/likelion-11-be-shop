@@ -40,8 +40,6 @@ public class OrderTest {
         item.setPrice(10000);
         item.setStock(100);
         item.setItemDetail("테스트 상품상세설명");
-        item.setStartTime(LocalDateTime.now());
-        item.setModifyTime(LocalDateTime.now());
         return item;
     }
 
@@ -61,8 +59,6 @@ public class OrderTest {
             orderItem.setOrder(order);
             orderItem.setPayment(50000);
             orderItem.setCount(5);
-            orderItem.setEnrollTime(LocalDateTime.now());
-            orderItem.setModifyTime(LocalDateTime.now());
 
             order.getOrderItems().add(orderItem); // 주문 상품 배열에 넣기
         }
@@ -86,8 +82,6 @@ public class OrderTest {
             orderItem.setOrder(order);
             orderItem.setPayment(50000);
             orderItem.setCount(5);
-            orderItem.setEnrollTime(LocalDateTime.now());
-            orderItem.setModifyTime(LocalDateTime.now());
 
             order.getOrderItems().add(orderItem);
         }

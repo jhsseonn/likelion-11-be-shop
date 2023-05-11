@@ -32,7 +32,4 @@ public class Item {
     @Enumerated(EnumType.STRING)
     private ItemSellStatus itemSellStatus;
 
-    private LocalDateTime startTime;
-    private LocalDateTime modifyTime;
-
 }

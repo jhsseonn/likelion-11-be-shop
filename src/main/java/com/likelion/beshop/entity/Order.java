@@ -21,10 +21,6 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id; // PK
 
-    private LocalDateTime orderDate;
-    private LocalDateTime enrollTime;
-    private LocalDateTime modifyTime;
-
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
