@@ -2,7 +2,6 @@ package com.likelion.beshop.repository;
 
 import com.likelion.beshop.constant.ItemSellStatus;
 import com.likelion.beshop.entity.Item;
-import com.likelion.beshop.entity.Member;
 import com.likelion.beshop.entity.QItem;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -15,7 +14,6 @@ import org.springframework.test.context.TestPropertySource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @SpringBootTest
@@ -33,36 +31,36 @@ public class ItemRepositoryTest {
     @DisplayName("아이템 테스트")
     public void createItemTest() {
         Item item = new Item();
-        item.setName("아이템");
+        item.setItemNm("아이템");
         item.setPrice(1000);
-        item.setNum(5);
-        item.setDetail("생필품입니다.");
-        item.setRegisterTime(LocalDateTime.now());
-        item.setUpdateTime(LocalDateTime.now());
+        item.setStockNumber(5);
+        item.setItemDetail("생필품입니다.");
+        //item.setRegisterTime(LocalDateTime.now());
+       // item.setUpdateTime(LocalDateTime.now());
         Item saveItem = itemRepository.save(item);
         System.out.println(saveItem.toString());
     }
 
-    public void createItem() {
+    public void createItemList() {
         for (int i=0; i<10; i++){
             Item item = new Item();
-            item.setName("아이템" + i);
-            item.setDetail("생필품입니다" +i);
+            item.setItemNm("아이템" + i);
+            item.setItemDetail("생필품입니다" +i);
             item.setPrice(i*1000);
-            item.setNum(5);
-            item.setRegisterTime(LocalDateTime.now());
-            item.setUpdateTime(LocalDateTime.now());
+            item.setStockNumber(5);
+            //item.setRegisterTime(LocalDateTime.now());
+            //item.setUpdateTime(LocalDateTime.now());
             Item saveItem = itemRepository.save(item);
 
-            item.setStatus(ItemSellStatus.SELL);
+            item.setItemSellStatus(ItemSellStatus.SELL);
 
         }
     }
     @Test
     @DisplayName("상품명 조회 테스트")
     public void findByItemNumTest() {
-        this.createItem();
-        List<Item> itemList = itemRepository.findByName("아이템1");
+        this.createItemList();
+        List<Item> itemList = itemRepository.findByItemNm("아이템1");
         for(Item item : itemList){
             System.out.println(item.toString());
         }
@@ -71,8 +69,8 @@ public class ItemRepositoryTest {
     @Test
     @DisplayName("상품명 혹은 상세설명 조회 테스트")
     public void findByItemNameOrDetailTest() {
-        this.createItem();
-        List<Item> itemList = itemRepository.findByNameOrDetail("아이템1", "생필품입니다3");
+        this.createItemList();
+        List<Item> itemList = itemRepository.findByItemNmOrItemDetail("아이템1", "생필품입니다3");
         for(Item item : itemList){
             System.out.println(item.toString());
         }
@@ -81,7 +79,7 @@ public class ItemRepositoryTest {
     @Test
     @DisplayName("상품가격 조회 테스트")
     public void findByItemPriceTest() {
-        this.createItem();
+        this.createItemList();
         List<Item> itemList = itemRepository.findByPriceLessThan(5000);
         for(Item item : itemList){
             System.out.println(item.toString());
@@ -91,7 +89,7 @@ public class ItemRepositoryTest {
     @Test
     @DisplayName("상품가격 조회 내림차순 테스트")
     public void findByItemPriceDescTest() {
-        this.createItem();
+        this.createItemList();
         List<Item> itemList = itemRepository.findByPriceLessThanOrderByPriceDesc(5000);
         for(Item item : itemList){
             System.out.println(item.toString());
@@ -101,8 +99,8 @@ public class ItemRepositoryTest {
     @Test
     @DisplayName("Query를 이용한 상품 조회 테스트")
     public void findByDetailPriceDescTest() {
-        this.createItem();
-        List<Item> itemList = itemRepository.findByDetail("생필품입니다");
+        this.createItemList();
+        List<Item> itemList = itemRepository.findByItemDetail("생필품입니다");
         for(Item item : itemList){
             System.out.println(item.toString());
         }
@@ -111,12 +109,12 @@ public class ItemRepositoryTest {
     @Test
     @DisplayName("Querydsl 조회 테스트1")
     public void queryDslTest() {
-        this.createItem();
+        this.createItemList();
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QItem qItem = QItem.item;
         JPAQuery<Item> query = queryFactory.selectFrom(qItem)
-                .where(qItem.status.eq(ItemSellStatus.SELL))
-                .where(qItem.detail.like("%" + "생필품입니다" + "%"))
+                .where(qItem.itemSellStatus.eq(ItemSellStatus.SELL))
+                .where(qItem.itemDetail.like("%" + "생필품입니다" + "%"))
                 .orderBy(qItem.price.desc());
         List<Item> itemList = query.fetch();
 

@@ -6,14 +6,13 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name="item") // 엔티티와 매핑할 테이블 지정
 @Getter
 @Setter
 @ToString
-public class Item {
+public class Item extends BaseEntity {
 
     // 상품 코드
     @Id
@@ -22,7 +21,7 @@ public class Item {
     private Long id;
     // 상품명
     @Column(nullable = false)
-    private String name;
+    private String itemNm;
 
     // 가격
     @Column(nullable = false)
@@ -30,18 +29,22 @@ public class Item {
 
     // 재고 수량
     @Column(nullable = false)
-    private int num;
+    private int stockNumber;
 
     // 상품 상세설명
     @Column(nullable = false)
-    private String detail;
+    private String itemDetail;
 
     // 상품 판매 상태 => enum
     @Enumerated(EnumType.STRING)
-    private ItemSellStatus status;
+    private ItemSellStatus itemSellStatus;
 
-    // 등록 시간
-    private LocalDateTime registerTime;
-    // 수정 시간
-    private LocalDateTime updateTime;
+    // BaseEntity가 등록일, 수정일, 등록자, 수정자를 모두 갖고 있어서 등록시간, 수정시간 멤버변수는 삭제
+//    // 등록 시간
+//    private LocalDateTime registerTime;
+//    // 수정 시간
+//    private LocalDateTime updateTime;
+
+
+
 }

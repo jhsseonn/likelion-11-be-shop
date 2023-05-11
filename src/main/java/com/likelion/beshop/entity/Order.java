@@ -1,7 +1,6 @@
 package com.likelion.beshop.entity;
 
 import com.likelion.beshop.constant.OrderStatus;
-import com.likelion.beshop.constant.Role;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Order {
+public class Order extends BaseEntity {
 
     // 주문 코드
     @Id
@@ -36,10 +35,11 @@ public class Order {
     // 주문일
     private LocalDateTime orderDate;
 
-    // 등록 시간
-    private LocalDateTime registerTime;
-    // 수정 시간
-    private LocalDateTime updateTime;
+    // BaseEntity가 등록일, 수정일, 등록자, 수정자를 모두 갖고 있어서 등록시간, 수정시간 멤버변수는 삭제
+//    // 등록 시간
+//    private LocalDateTime registerTime;
+//    // 수정 시간
+//    private LocalDateTime updateTime;
 
     // OrderItem과 연관 관계 매핑 추가, 영속성 전이 옵션(All)
     //@OneToMany(mappedBy="order", cascade=CascadeType.ALL) // => LAZY옵션이 없으므로 OrderTest에서 실행하면 Item, orderItem이 3번 insert 됨(order는 1번 insert)

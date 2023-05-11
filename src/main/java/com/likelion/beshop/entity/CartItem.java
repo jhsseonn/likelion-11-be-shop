@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table(name="cart_item")
 @Getter
 @Setter
-public class CartItem {
+public class CartItem extends BaseEntity{
     // 장바구니 상품 번호
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Table(name="member") // 엔티티와 매핑할 테이블 지정, member는 테이블 이름
 @Getter @Setter
 @ToString
-public class Member {
+public class Member extends BaseEntity{
     @Id
     @Column(name="member_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,8 +38,8 @@ public class Member {
 
         String pwd = passwordEncoder.encode(memberFormDto.getPassword());
         member.setPassword(pwd);
-        member.setRole(Role.USER); // USER로 접근
-        //member.setRole(Role.ADMIN); // ADMIN으로 접근
+        //member.setRole(Role.USER); // USER로 접근
+        member.setRole(Role.ADMIN); // ADMIN으로 접근
         return member;
     }
 

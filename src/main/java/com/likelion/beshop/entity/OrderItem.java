@@ -4,13 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name="order_item")
 @Getter
 @Setter
-public class OrderItem {
+public class OrderItem extends BaseEntity{
     // 주문 상품 코드
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,15 +27,16 @@ public class OrderItem {
     private Order order;
 
     // 주문 가격
-    private int price;
+    private int orderPrice;
 
     // 수량
     private int count;
 
-    // 등록 시간
-    private LocalDateTime registerTime;
-
-    // 수정 시간
-    private LocalDateTime updateTime;
+    // BaseEntity가 등록일, 수정일, 등록자, 수정자를 모두 갖고 있어서 등록시간, 수정시간 멤버변수는 삭제
+//    // 등록 시간
+//    private LocalDateTime registerTime;
+//
+//    // 수정 시간
+//    private LocalDateTime updateTime;
 
 }

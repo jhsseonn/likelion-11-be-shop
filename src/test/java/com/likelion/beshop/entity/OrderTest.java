@@ -1,7 +1,6 @@
 package com.likelion.beshop.entity;
 
 import com.likelion.beshop.constant.ItemSellStatus;
-import com.likelion.beshop.constant.OrderStatus;
 import com.likelion.beshop.repository.ItemRepository;
 import com.likelion.beshop.repository.MemberRepository;
 import com.likelion.beshop.repository.OrderItemRepository;
@@ -45,13 +44,13 @@ class OrderTest {
     // 아이템 생성 메소드
     public Item createItem() {
         Item item = new Item();
-        item.setName("아이템");
+        item.setItemNm("아이템");
         item.setPrice(1000);
-        item.setNum(1);
-        item.setDetail("설명");
-        item.setStatus(ItemSellStatus.SOLD_OUT);
-        item.setRegisterTime(LocalDateTime.now());
-        item.setUpdateTime(LocalDateTime.now());
+        item.setStockNumber(1);
+        item.setItemDetail("설명");
+        item.setItemSellStatus(ItemSellStatus.SOLD_OUT);
+        //item.setRegisterTime(LocalDateTime.now());
+        //item.setUpdateTime(LocalDateTime.now());
 
         return item;
 
@@ -71,7 +70,7 @@ class OrderTest {
             OrderItem orderItem = new OrderItem();
             orderItem.setItem(item);
             orderItem.setCount(5);
-            orderItem.setPrice(1000);
+            orderItem.setOrderPrice(1000);
             //orderItem.setRegisterTime(LocalDateTime.now());
             //orderItem.setUpdateTime(LocalDateTime.now());
             orderItem.setOrder(order);
@@ -102,7 +101,7 @@ class OrderTest {
             OrderItem orderItem = new OrderItem();
             orderItem.setItem(item);
             orderItem.setCount(5);
-            orderItem.setPrice(1000);
+            orderItem.setOrderPrice(1000);
             //orderItem.setRegisterTime(LocalDateTime.now());
             //orderItem.setUpdateTime(LocalDateTime.now());
             orderItem.setOrder(order);
