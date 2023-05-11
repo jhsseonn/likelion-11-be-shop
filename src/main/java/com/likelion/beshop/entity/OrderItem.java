@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Table(name="orderitems")
 @Getter
 @Setter
-public class OrderItem {
+public class OrderItem extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "orderitem_id")
@@ -28,8 +28,6 @@ public class OrderItem {
     private int orderPrice;//주문 가격
     private int num; // 주문수량
 
-    private LocalDateTime registrationtime; // 등록시간
 
-    private LocalDateTime correctiontime;// 수정시간
 }
 

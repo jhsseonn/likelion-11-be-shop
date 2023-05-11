@@ -35,7 +35,7 @@ public class ItemRepositoryTest {
     public void createItemTest() {
         Item item = new Item();
         item.setName("나나");
-        item.setNum(1);
+        item.setStockNum(1);
         item.setDetail("ss");
         item.setPrice(123);
         item.setSellStatus(ItemSellStatus.SELLING);
@@ -61,7 +61,7 @@ public class ItemRepositoryTest {
         for (int i = 0; i < 10; i++) {
             Item item = new Item();
             item.setName("나나" + i);
-            item.setNum(1);
+            item.setStockNum(1);
             item.setDetail("ss");
             item.setPrice(100*i);
             item.setSellStatus(ItemSellStatus.SELLING);

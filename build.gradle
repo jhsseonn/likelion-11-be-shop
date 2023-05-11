@@ -46,6 +46,8 @@ dependencies {
 	//query dsl 추가
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
+	//modelmapper
+	implementation 'org.modelmapper:modelmapper:2.3.9'
 
 }
 

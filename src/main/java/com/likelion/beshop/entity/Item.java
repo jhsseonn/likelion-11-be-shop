@@ -6,30 +6,25 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.Date;
+
 
 @Entity
 @Table(name="item")
 @Getter
 @Setter
 @ToString
-public class Item {
+public class Item extends BaseEntity {
     @Id
     @Column(name = "item_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;//상품 코드
     @Column(unique = true)
     private String name;
-    private int num;
+    private int stockNum;
     private String detail;
     @Enumerated(EnumType.STRING)
     private ItemSellStatus sellStatus;
 
     private int price;
-
-    private LocalDateTime registerTime;
-    private LocalDateTime updateTime;
-
 
 }

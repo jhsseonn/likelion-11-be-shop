@@ -42,7 +42,7 @@ public class OrderTest {
     public Item createItem(int i) {
         Item item = new Item();
         item.setName("아이템"+i);
-        item.setNum(1);
+        item.setStockNum(1);
         item.setDetail("상세설명1");
         item.setPrice(10000);
         item.setSellStatus(ItemSellStatus.SELLING);
