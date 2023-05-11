@@ -1,7 +1,16 @@
+// (1) queryDSL 추가
+buildscript {
+	ext {
+		queryDslVersion = "5.0.0"
+	}
+}
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.10-SNAPSHOT'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	// (2) queryDSL 추가
+	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'com.likelion'
@@ -24,13 +33,43 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// (3) queryDSL 추가
+	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+	testImplementation 'org.projectlombok:lombok:1.18.22'
+	annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
+
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	testImplementation 'org.springframework.security:spring-security-test'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.0.4.RELEASE'
+	implementation 'org.modelmapper:modelmapper:2.3.9' //modelmapper 2.3.9 버전으로 사용하는 의존성 추가 코드
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// (4) queryDSL 추가 : QueryDSL 빌드 옵션
+def querydslDir = "$buildDir/generated/querydsl"
+
+querydsl {
+	jpa = true
+	querydslSourcesDir = querydslDir
+}
+sourceSets {
+	main.java.srcDir querydslDir
+}
+configurations {
+	querydsl.extendsFrom compileClasspath
+}
+compileQuerydsl {
+	options.annotationProcessorPath = configurations.querydsl
+}
+// 여기까지
