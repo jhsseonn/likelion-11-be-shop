@@ -50,8 +50,6 @@ class ItemRepositoryTest {
             item.setPrice((i+1)*1000);
             item.setItemSellStatus(ItemSellStatus.SALE);
             item.setCount(i+2);
-            item.setUploadTime(LocalDateTime.now());
-            item.setUpdateTime(LocalDateTime.now());
             temp=itemRepository.save(item);
         }
     }
@@ -68,8 +66,6 @@ class ItemRepositoryTest {
         item.setItemSellStatus(ItemSellStatus.SALE);
         item.setDescription("맛있는 감자칩입니다.");
         item.setCount(5);
-        item.setUploadTime(LocalDateTime.now());
-        item.setUpdateTime(LocalDateTime.now());
         temp=itemRepository.save(item);
         System.out.println(temp.toString());
     }

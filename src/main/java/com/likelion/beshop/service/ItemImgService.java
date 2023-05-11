@@ -21,18 +21,17 @@ public class ItemImgService {
 
     //상품 이미지 upload
     public void saveItemImg(ItemImg itemImg, MultipartFile itemImgFile) throws Exception {
-        String oriImgName = itemImg.getOriginalFileName();
+        String oriImgName = itemImgFile.getOriginalFilename();
         String imgName = "";
         String imgUrl = "";
         //파일 upload
         if (!StringUtils.isEmpty(oriImgName))
         {
-            imgName=fileService.uploadFile(itemImgLocation, oriImgName, );
-            imgUrl="/images/item/" +
+            imgName=fileService.uploadFile(itemImgLocation, oriImgName, itemImgFile.getBytes());
+            imgUrl="/images/item/" + imgName;
         }
         //상품 이미지 정보 저장
-
+        itemImg.UpdateltemImg(oriImgName, imgName, imgUrl);
+        itemImgRepository.save(itemImg);
     }
-
-
 }

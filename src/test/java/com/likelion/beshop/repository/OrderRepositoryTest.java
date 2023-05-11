@@ -43,8 +43,6 @@ class OrderRepositoryTest {
         item.setItem(miniitem);
         item.setCount(5);
         item.setPrice(1500);
-        item.setUploadTime(LocalDateTime.now());
-        item.setUpdateTime(LocalDateTime.now());
         item.setOrder(order);
         return item;
     }
