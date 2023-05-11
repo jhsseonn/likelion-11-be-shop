@@ -21,6 +21,9 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class ItemController {
+
+    private final ItemService itemService;
+
     @GetMapping(value = "/item/new")
     public String itemForm(Model model) {
         model.addAttribute("itemFormDto", new ItemFormDto());
@@ -41,7 +44,7 @@ public class ItemController {
         }
 
         try { // 상품 저장 로직 호출하여 매개변수로 상품 정보와 상품 이미지 정보를 담고 있는 itemFormDto와 itemImgFileList를 넘겨줌
-            ItemService.saveItem(itemFormDto, itemImgFileList);
+            itemService.saveItem(itemFormDto, itemImgFileList);
         } catch (Exception e){
             model.addAttribute("errorMessage", "상품 등록 중 에러가 발생하였습니다.");
             return "item/itemForm"; // 상품 등록 페이지로 전환
