@@ -28,7 +28,7 @@ public class ItemFormDto {
     private List<Long> imageIds = new ArrayList<>(); // 상품 등록 시, 이미지는 저장되지 않은 상태이므로 수정 시에 이미지 아이디를 담을 용도로 상품의 이미지 ID들을 저장할 리스트 선언
     private static ModelMapper modelMapper = new ModelMapper(); // 멤버 변수로 ModelMapper 객체를 추가
 
-    public Item creatItem() { //  modelmapper를 이용해 아이템 등록 위한 메소드 작성
+    public Item createItem() { //  modelmapper를 이용해 아이템 등록 위한 메소드 작성
         return modelMapper.map(this, Item.class);
     }
 

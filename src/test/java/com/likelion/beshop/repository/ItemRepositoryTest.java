@@ -36,8 +36,8 @@ public class ItemRepositoryTest {
         item.setNum(1);
         item.setContent("설명");
 
-        item.setTime(LocalDateTime.now());
-        item.setEditTime(LocalDateTime.now());
+//        item.setTime(LocalDateTime.now());
+//        item.setEditTime(LocalDateTime.now());
 
         Item savedItem = itemRepository.save(item);
         System.out.println(savedItem.toString());
@@ -51,9 +51,9 @@ public class ItemRepositoryTest {
             item.setNum(1);
             item.setContent("설명"+i);
             item.setStatus(ItemSellStatus.SELLING);
-
-            item.setTime(LocalDateTime.now());
-            item.setEditTime(LocalDateTime.now());
+//
+//            item.setTime(LocalDateTime.now());
+//            item.setEditTime(LocalDateTime.now());
 
             Item savedItem = itemRepository.save(item);
             //System.out.println(savedItem.toString());
