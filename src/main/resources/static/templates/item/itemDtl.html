@@ -140,20 +140,20 @@
 
 <div layout:fragment="content" style="margin-left:25%;margin-right:25%">
 
-    <input type="hidden" id="itemId" th:value="${item.id}">
+    <input type="hidden" id="itemId" th:value="${item.code}">
 
     <div class="d-flex">
         <div class="repImgDiv">
             <img th:src="${item.itemImgDtoList[0].imgUrl}" class = "rounded repImg" th:alt="${item.name}">
         </div>
         <div class="wd50">
-            <span th:if="${item.itemSellStatus == T(com.likelion.beshop.constant.ItemSellStatus).SELLING}" class="badge badge-primary mgb-15">
+            <span th:if="${item.status == T(com.likelion.beshop.constant.ItemSellStatus).SELLING}" class="badge badge-primary mgb-15">
                 판매중
             </span>
-            <span th:unless="${item.itemSellStatus == T(com.likelion.beshop.constant.ItemSellStatus).SELLING}" class="badge btn-danger mgb-15" >
+            <span th:unless="${item.status == T(com.likelion.beshop.constant.ItemSellStatus).SELLING}" class="badge btn-danger mgb-15" >
                 품절
             </span>
-            <div class="h4" th:text="${item.itemName}"></div>
+            <div class="h4" th:text="${item.name}"></div>
             <hr class="my-4">
 
             <div class="text-right">
@@ -174,11 +174,11 @@
                 <h5>결제 금액</h5>
                 <h3 name="totalPrice" id="totalPrice" class="font-weight-bold"></h3>
             </div>
-            <div th:if="${item.itemSellStatus == T(com.likelion.beshop.constant.ItemSellStatus).SELL}" class="text-right">
+            <div th:if="${item.status == T(com.likelion.beshop.constant.ItemSellStatus).SELL}" class="text-right">
                 <button type="button" class="btn btn-light border border-primary btn-lg" onclick="addCart()">장바구니 담기</button>
                 <button type="button" class="btn btn-primary btn-lg" onclick="order()">주문하기</button>
             </div>
-            <div th:unless="${item.itemSellStatus == T(com.likelion.beshop.constant.ItemSellStatus).SELL}" class="text-right">
+            <div th:unless="${item.status == T(com.likelion.beshop.constant.ItemSellStatus).SELL}" class="text-right">
                 <button type="button" class="btn btn-danger btn-lg">품절</button>
             </div>
         </div>
@@ -188,7 +188,7 @@
         <div class="container">
             <h4 class="display-5">상품 상세 설명</h4>
             <hr class="my-4">
-            <p class="lead" th:text="${item.itemDetail}"></p>
+            <p class="lead" th:text="${item.content}"></p>
         </div>
     </div>
 
