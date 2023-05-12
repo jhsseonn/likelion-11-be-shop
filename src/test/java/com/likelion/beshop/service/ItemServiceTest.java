@@ -69,7 +69,7 @@ public class ItemServiceTest {
         List<MultipartFile> multipartFileList = createMultipartFiles(); // createMultipartFiles로 가짜 MultipartFile 리스트 생성
 
         Long itemId = itemService.saveItem(itemFormDto, multipartFileList); // 상품 데이터, 생성한 이미지 정보를 파라미터로 넘겨서 저장하고, 해당 상품 아이디 값 받아오기
-        List<ItemImg> itemImgList = itemImgRepository.findByItemIdOrderByIdAsc(itemId); //  itemImgRepository에서 생성한 쿼리메소드 사용해서 해당 상품의 이미지 리스트 받아오기
+        List<ItemImg> itemImgList = itemImgRepository.findByIdOrderByIdAsc(itemId); //  itemImgRepository에서 생성한 쿼리메소드 사용해서 해당 상품의 이미지 리스트 받아오기
 
         // itemRepository의 쿼리메소드 사용해서 해당 상품 받아오기 (.orElseThrow로 예외 처리)
         Item item = itemRepository.findById(itemId)
