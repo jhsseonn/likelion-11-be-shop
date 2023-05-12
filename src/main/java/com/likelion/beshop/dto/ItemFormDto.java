@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 public class ItemFormDto {
-    private Long code;
+    private Long id;
     @NotBlank(message = "상품명을 입력해주세요.")
     private String name;
     @NotNull(message = "상품명의 가격을 입력해주세요.")

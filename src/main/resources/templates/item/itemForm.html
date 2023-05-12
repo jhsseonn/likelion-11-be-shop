@@ -61,12 +61,12 @@
             상품 등록
         </p>
 
-        <input type="hidden" th:field="*{code}">
+        <input type="hidden" th:field="*{id}">
 
         <div class="form-group">
             <select th:field="*{status}" class="custom-select">
-                <option value="SELL">판매중</option>
-                <option value="SOLD_OUT">품절</option>
+                <option value="SELLING">판매중</option>
+                <option value="DONE">품절</option>
             </select>
         </div>
 
@@ -117,15 +117,15 @@
                     <input type="file" class="custom-file-input" name="itemImgFile">
                     <input type="hidden" name="itemImgIds" th:value="${itemImgDto.id}">
                     <label class="custom-file-label"
-                           th:text="${not #strings.isEmpty(itemImgDto.originalImageName)} ? ${itemImgDto.oriImgName} : '상품이미지' + ${status.index+1}"></label>
+                           th:text="${not #strings.isEmpty(itemImgDto.originalImageName)} ? ${itemImgDto.originalImageName} : '상품이미지' + ${status.index+1}"></label>
                 </div>
             </div>
         </div>
 
-        <div th:if="${#strings.isEmpty(itemFormDto.code)}" style="text-align: center">
+        <div th:if="${#strings.isEmpty(itemFormDto.id)}" style="text-align: center">
             <button th:formaction="@{/admin/item/new}" type="submit" class="btn btn-primary">저장</button>
         </div>
-        <div th:unless="${#strings.isEmpty(itemFormDto.code)}" style="text-align: center">
+        <div th:unless="${#strings.isEmpty(itemFormDto.id)}" style="text-align: center">
             <button th:formaction="@{'/admin/item/' + ${itemFormDto.id} }" type="submit" class="btn btn-primary">수정
             </button>
         </div>

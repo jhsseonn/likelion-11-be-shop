@@ -22,6 +22,5 @@ public class ItemImgDto {
         ItemImgDto itemImgDto = modelMapper.map(itemImg, ItemImgDto.class);
         return itemImgDto;
     }
-
 }
 

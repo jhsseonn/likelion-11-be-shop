@@ -5,8 +5,11 @@ import com.likelion.beshop.repository.ItemImgRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
+
 import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.util.StringUtils;
+
+import javax.persistence.EntityNotFoundException;
 
 import javax.transaction.Transactional;
 
@@ -39,5 +42,20 @@ public class ItemImgService {
         itemImg.updateItemImg(oriImgName, imgName, imgUrl);
         itemImgRepository.save(itemImg);
 
+    }
+
+    public void updateItemImg(Long itemImgId, MultipartFile itemImgFile) throws Exception{ // itemImgId, itemImgFile 매개변수로 받고 예외처리
+        if(!itemImgFile.isEmpty()){ // 상품 이미지를 수정한 경우 상품 이미지 업데이트 조건 추가
+            ItemImg savedItemImg = itemImgRepository.findById(itemImgId).orElseThrow(EntityNotFoundException::new);
+            if(!StringUtils.isEmpty(savedItemImg.getImageName())){
+                fileService.deleteFile(itemImgLocation+"/"+savedItemImg.getImageName()); // 기존에 등록된 상품 이미지 파일이 있을 경우 해당 파일 삭제(fileService의 deleteFile 메서드 사용)
+            }
+
+            String oriImgName = itemImgFile.getOriginalFilename();
+            String imgName = fileService.uploadFile(itemImgLocation, oriImgName, itemImgFile.getBytes()); // 업데이트한 상품 이미지 파일 업로드
+            String imgUrl = "/images/item/" + imgName;
+
+            savedItemImg.updateItemImg(oriImgName,imgName,imgUrl); // 변경된 상품 이미지 정보 세팅(*savedItemImg의 upedateItemImg 메서드 사용
+        }
     }
 }
