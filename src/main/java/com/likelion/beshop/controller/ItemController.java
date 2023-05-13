@@ -70,7 +70,7 @@ public class ItemController {
 
     @PostMapping(value = "/admin/item/{itemId}")
     public String itemUpdate(@Valid ItemFormDto itemFormDto, BindingResult bindingResult, //이 때, itemFormDto 제약조건 검증하고 itemImgFileList는 @RequestParam 사용해 itemImgFile을 매개변수로 받아오기
-                             @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList, Model model){
+                             @RequestParam("itemImgFile") List<MultipartFile> itemFileList, Model model){
         if(bindingResult.hasErrors()){ // bindingResult 이용해 유효성 검증시 에러가 발생했을 때 itemForm 페이지 유지
             return "item/itemForm";
         }
@@ -78,14 +78,14 @@ public class ItemController {
         // itemImgFileList의 0번째 인덱스가 비어있거나 itemFormDto에 상품 아이디가 존재
         // 하지 않을 경우 "첫번째 상품 이미지는 필수 입력 값입니다" 에러 메시지 띄우고
         // itemForm 페이지 유지
-        if(itemImgFileList.get(0).isEmpty() && itemFormDto.getId() == null){
+        if(itemFileList.get(0).isEmpty() && itemFormDto.getId() == null){
             model.addAttribute("errorMessage", "첫번째 상품 이미지는 필수 입력 값 입니다.");
             return "item/itemForm";
         }
 
         // try-catch문으로 상품 수정 로직 추가하고 에러 예외처리
         try{
-            itemService.updateItem(itemFormDto, itemImgFileList);
+            itemService.updateItem(itemFormDto, itemFileList);
         }catch (Exception e){
             model.addAttribute("errorMessage","상품 수정 중 에러가 발생하였습니다.");
             return "item/itemForm";

@@ -49,7 +49,7 @@ public class ItemService {
     }
 
     @Transactional(readOnly = true) // 트랜잭션 읽기 전용 설정 어노테이션 -> 해당 어노테이션 사용 시, JPA가 더티체킹이라고 하는 변경을 감지하는 행위를 수행하지 않으므로 성능을 향상시킬 수 있어서 이런 함수는 읽기 전용으로 설정
-    public ItemFormDto getItemDtl(Long itemId){ // 상품 데이터를 받아올 함수
+    public ItemFormDto getItemDtl(long itemId){ // 상품 데이터를 받아올 함수
         List<ItemImg> itemImgList = itemImgRepository.findByItemIdOrderByIdAsc(itemId); // 상품에 해당하는 이미지 조회
         List<ItemImgDto> itemImgDtoList = new ArrayList<>(); // 매개변수로 받은 인스턴스를 이용해 새로운 인스턴스 생성 (ModelMapper)
         for (ItemImg itemImg : itemImgList) {
@@ -66,7 +66,7 @@ public class ItemService {
         return itemFormDto;
     }
 
-    public long updateItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgFileList) throws Exception{ // itemFormDto, itemImgFileList 매개변수로 받고 예외처리 (메서드 타입: Long)
+    public Long updateItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgFileList) throws Exception{ // itemFormDto, itemImgFileList 매개변수로 받고 예외처리 (메서드 타입: Long)
         Item item = itemRepository.findById(itemFormDto.getId()).orElseThrow(EntityNotFoundException::new); // 상품 등록 화면으로부터 전달 받은 상품 아이디를 이용해 상품 엔티티 조회
         item.updateItem(itemFormDto); // 상품 등록 화면으로부터 전달 받은 itemFormDto를 통해 상품 엔티티 업데이트
 
