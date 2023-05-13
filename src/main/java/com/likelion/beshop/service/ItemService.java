@@ -68,13 +68,16 @@ public class ItemService {
 
     public Long updateItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgFileList) throws Exception{ // itemFormDto, itemImgFileList 매개변수로 받고 예외처리 (메서드 타입: Long)
         Item item = itemRepository.findById(itemFormDto.getId()).orElseThrow(EntityNotFoundException::new); // 상품 등록 화면으로부터 전달 받은 상품 아이디를 이용해 상품 엔티티 조회
+        System.out.println("상품 엔티티 업데이트 전");
         item.updateItem(itemFormDto); // 상품 등록 화면으로부터 전달 받은 itemFormDto를 통해 상품 엔티티 업데이트
 
         List<Long> itemImgIds = itemFormDto.getImageIds(); // 상품 이미지 아이디 리스트 조회
+        System.out.println("상품 엔티티 업데이트 후");
 
         for(int i=0; i<itemImgFileList.size(); i++){
             itemImgService.updateItemImg(itemImgIds.get(i), itemImgFileList.get(i)); // 상품 이미지를 업데이트 하기 위해 updateItemImg() 메소드에 상품 이미지 아이디 상품 이미지 파일 정보를 파라미터로 전달
         }
+        System.out.println("아이템 아이디 주기");
         return item.getId(); // 아이템 아이디 최종 리턴
     }
 }
