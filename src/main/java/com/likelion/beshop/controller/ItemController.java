@@ -64,6 +64,7 @@ public class ItemController {
         } catch (EntityNotFoundException e){ // try-catch문 사용해 엔티티가 존재하지 않는 경우 예외처리
             model.addAttribute("errorMessage", "존재하지 않는 상품 입니다.");
             model.addAttribute("itemFormDto", new ItemFormDto()); // 예외처리시 뷰로 전달하는 itemFormDto는 새로 생성
+            return "item/itemForm";
         }
         return "item/itemForm";
     }
