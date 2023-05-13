@@ -30,6 +30,7 @@ public class ItemController {
                           Model model, @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList){ // 이미지들의 리스트를 받아오기 위한 파라미터 추가
 
         if(bindingResult.hasErrors()){ // 검증 오류 발생 시
+            System.out.println(bindingResult.getAllErrors().toString());
             return "item/itemForm";
         }
 
