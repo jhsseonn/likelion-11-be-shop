@@ -15,13 +15,14 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
-public class Member {
+public class Member extends BaseEntity {
     @Id
     @Column(name="member_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id; //기본키가 되어있는거랑 연결된 것
 
-    private String name;
+
+    private String name; //베이스 엔티티와 겹치는 속성
     @Column(unique = true)
     private String email;
     private String pwd;
@@ -39,7 +40,7 @@ public class Member {
        member.setAddress(memberFormDto.getAddress());
        String pwd = passwordEncoder.encode(memberFormDto.getPassword());
        member.setPwd(pwd);
-       member.setRole(Role.USER);
+       member.setRole(Role.ADMIN);
 
         return member;
     }
