@@ -29,10 +29,10 @@ public class ItemImg extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY) // 상품 엔티티와 N:1 단방향 매핑, 지연 로딩으로 설정
     private Item item;
 
-    public void updateItemImg(String originalImageName, String newImageName, String imagePath) {
-        this.setOriginalImageName(originalImageName);
-        this.setImageName(newImageName);
-        this.setImagePath(imagePath);
+    public void updateItemImg(String originalImageName, String imageName, String imagePath) {
+        this.originalImageName = originalImageName;
+        this.imageName = imageName;
+        this.imagePath = imagePath;
     }
 }
 
