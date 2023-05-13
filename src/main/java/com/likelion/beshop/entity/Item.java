@@ -1,6 +1,7 @@
 package com.likelion.beshop.entity;
 
 import com.likelion.beshop.constant.ItemSellStatus;
+import com.likelion.beshop.dto.ItemFormDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -45,6 +46,13 @@ public class Item extends BaseEntity {
 //    // 수정 시간
 //    private LocalDateTime updateTime;
 
+    public void updateItem(ItemFormDto itemFormDto){
+        this.itemNm = itemFormDto.getItemNm();
+        this.price = itemFormDto.getPrice();
+        this.stockNumber = itemFormDto.getStockNumber();
+        this.itemDetail = itemFormDto.getItemDetail();
+        this.itemSellStatus = itemFormDto.getItemSellStatus();
+    }
 
 
 }

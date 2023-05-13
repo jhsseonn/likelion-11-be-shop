@@ -3,11 +3,12 @@ package com.likelion.beshop.repository;
 import com.likelion.beshop.entity.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface ItemRepository extends JpaRepository<Item, Long> {
+public interface ItemRepository extends JpaRepository<Item, Long>, QuerydslPredicateExecutor<Item>, ItemRepositoryCustom {
     List<Item> findByItemNm(String itemNm);
 
     // 상품명 혹은 상세 설명 중 어느 하나가 일치할 때 아이템을 가져오는 쿼리 메소드
