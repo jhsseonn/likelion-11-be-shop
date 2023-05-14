@@ -13,6 +13,7 @@ public class ItemImgDto {
     private String imgName;
     private String oriImgName;
     private String imgUrl;
+    //대표 이미지
     private String repImgYn;
 
     private static ModelMapper modelMapper = new ModelMapper();

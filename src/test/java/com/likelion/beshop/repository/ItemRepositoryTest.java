@@ -155,8 +155,8 @@ class ItemRepositoryTest {
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QItem qItem = QItem.item;
         JPAQuery<Item> query = queryFactory.selectFrom(qItem)
-                .where(qItem.sellStatus.eq(ItemSellStatus.SALE))
-                .where(qItem.detail.like("최신형노트북" + "%"))
+                .where(qItem.itemSellStatus.eq(ItemSellStatus.SALE))
+                .where(qItem.itemDetail.like("최신형노트북" + "%"))
                 .orderBy(qItem.price.desc());
         List<Item> itemList = query.fetch();
 

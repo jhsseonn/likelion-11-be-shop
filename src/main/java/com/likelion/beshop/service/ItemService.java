@@ -2,12 +2,15 @@ package com.likelion.beshop.service;
 
 import com.likelion.beshop.dto.ItemFormDto;
 import com.likelion.beshop.dto.ItemImgDto;
+import com.likelion.beshop.dto.ItemSearchDto;
 import com.likelion.beshop.entity.Item;
 import com.likelion.beshop.entity.ItemImg;
 import com.likelion.beshop.entity.Member;
 import com.likelion.beshop.repository.ItemImgRepository;
 import com.likelion.beshop.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -72,6 +75,27 @@ public class ItemService {
         return itemFormDto;
     }
 
+    public Long updateItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgFileList) throws Exception{
+        //item은 아직 수정이 되지 않은 item
+        Item item = itemRepository.findById(itemFormDto.getId()).orElseThrow(EntityNotFoundException::new);
+        //이제 업데이트해!
+        item.updateItem(itemFormDto);
 
+
+        //이미지가 변해도 이미지의 id는 그대로
+        //이미지의 id는 그대로, 경로만 바꾸는 것
+        List<Long> itemImgIds = itemFormDto.getItemImgIds();
+        //이미지 등록(업데이트)
+        for(int i=0;i<itemImgFileList.size();i++){
+            itemImgService.updateItemImg(itemImgIds.get(i), itemImgFileList.get(i));
+        }
+        return item.getId();
+    }
+
+
+    @Transactional(readOnly = true)
+    public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
+        return itemRepository.getAdminItemPage(itemSearchDto, pageable);
+    }
 
 }
