@@ -2,7 +2,6 @@ package com.likelion.beshop.dto;
 
 import com.likelion.beshop.constant.ItemSellStatus;
 import com.likelion.beshop.entity.Item;
-import com.likelion.beshop.entity.ItemImg;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;

@@ -13,7 +13,7 @@ import java.util.List;
 @Table(name="order_item")
 @Getter
 @Setter
-public class OrderItem {
+public class OrderItem extends Base {
     @Id
     @Column(name="order_item_id")
     @GeneratedValue(strategy = GenerationType.AUTO)

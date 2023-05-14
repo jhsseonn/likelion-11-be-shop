@@ -10,6 +10,7 @@ import java.util.UUID;
 @Service
 @Log
 public class FileService {
+    //
     public String uploadFile(String uploadPath, String originalFileName, byte[] fileData) throws Exception {
         UUID uuid = UUID.randomUUID();
         String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
@@ -26,7 +27,7 @@ public class FileService {
         return savedFileName;
     }
 
-    public void deleteFile(String filePath) throws Exception{
+    public void deleteFile(String filePath) throws Exception {
 
         File deleteFile = new File(filePath);
 

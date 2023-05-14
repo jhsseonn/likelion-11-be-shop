@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Table(name="cart")
 @Getter
 @Setter
-public class Cart {
+public class Cart extends Base {
     @Id
     @Column(name = "cart_id")
     @GeneratedValue(strategy = GenerationType.AUTO)

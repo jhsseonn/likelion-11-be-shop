@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table(name="item_img")
 @Getter
 @Setter
-public class ItemImg {
+public class ItemImg extends Base {
     @Id
     @Column(name="item_img_id")
     @GeneratedValue(strategy = GenerationType.AUTO)

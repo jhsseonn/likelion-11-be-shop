@@ -2,11 +2,14 @@ package com.likelion.beshop.service;
 
 import com.likelion.beshop.dto.ItemFormDto;
 import com.likelion.beshop.dto.ItemImgDto;
+import com.likelion.beshop.dto.ItemSearchDto;
 import com.likelion.beshop.entity.Item;
 import com.likelion.beshop.entity.ItemImg;
 import com.likelion.beshop.repository.ItemImgRepository;
 import com.likelion.beshop.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -68,5 +71,23 @@ public class ItemService {
         ItemFormDto itemFormDto = ItemFormDto.ItemMapper(item);
         itemFormDto.setItemImgDtoList(itemImgDtoList);
         return itemFormDto;
+    }
+
+    // 상품 정보 수정
+    public Long updateItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgFileList) throws Exception {
+        Item item = itemRepository.findById(itemFormDto.getId()).orElseThrow(EntityNotFoundException::new);
+        item.updateItem(itemFormDto);
+        List<Long> itemImgIds = itemFormDto.getItemImgIds();
+
+        for (int i = 0; i < itemImgFileList.size(); i++) {
+            itemImgService.updateItemImg(itemImgIds.get(i), itemImgFileList.get(i));
+        }
+        return item.getId();
+    }
+
+    // 상품 조건에 따른 검색(조회)
+    @Transactional(readOnly = true)
+    public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
+        return itemRepository.getAdminItemPage(itemSearchDto, pageable);
     }
 }

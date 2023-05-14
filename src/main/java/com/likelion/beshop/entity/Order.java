@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name="orders") // mysql 예약어 order
 @Getter
 @Setter
-public class Order {
+public class Order extends Base {
     @Id
     @Column(name = "order_id")
     @GeneratedValue(strategy = GenerationType.AUTO)

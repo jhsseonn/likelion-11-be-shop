@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @Table(name="cart_item")
 @Getter
 @Setter
-public class CartItem {
+public class CartItem extends Base {
 
     @Id
     @Column(name="cart_item_id")

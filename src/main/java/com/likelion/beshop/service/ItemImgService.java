@@ -21,6 +21,7 @@ public class ItemImgService {
     private final ItemImgRepository itemImgRepository;
     private final FileService fileService;
 
+    // 상품 이미지 저장
     public void saveItemImg(ItemImg itemImg, MultipartFile itemImgFile) throws Exception {
         String originalImgName = itemImgFile.getOriginalFilename();
         String imgName = "";
@@ -37,22 +38,23 @@ public class ItemImgService {
         itemImgRepository.save(itemImg);
     }
 
-    /*
-    public void updateItemImg(Long itemImgId, MultipartFile itemImgFile) throws Exception{
-        if(!itemImgFile.isEmpty()){
-            ItemImg savedItemImg = itemImgRepository.findById(itemImgId)
-                    .orElseThrow(EntityNotFoundException::new);
+    // 아이템 이미지 수정
+    public void updateItemImg(Long itemImgId, MultipartFile itemImgFile) throws Exception {
+        if (!itemImgFile.isEmpty()) {
+            // 상품 id를 통해 상품 이미지 조회한 후 itemImg 변수에 저장
+            ItemImg savedItemImg = itemImgRepository.findById(itemImgId).orElseThrow(EntityNotFoundException::new);
 
-            //기존 이미지 파일 삭제
-            if(!StringUtils.isEmpty(savedItemImg.getImgName())) {
-                fileService.deleteFile(itemImgLocation + "/" + savedItemImg.getImgName());
+            // 기존 등록된 상품 이미지가 있는 경우 삭제
+            if (!StringUtils.isEmpty(savedItemImg.getOriginalImgName())) {
+                fileService.deleteFile(savedItemImg.getImgPath());
             }
 
-            String originalImgName = itemImgFile.getOriginalFilename();
+            // 수정하고자 하는 상품 이미지 정보 세팅(업데이트)
+            String originalImgName = savedItemImg.getOriginalImgName();
             String imgName = fileService.uploadFile(itemImgLocation, originalImgName, itemImgFile.getBytes());
-            String imgUrl = "/images/item/" + imgName;
-            savedItemImg.updateItemImg(originalImgName, imgName, imgUrl);
+            String imgPath = "/images/item/" + imgName;
+
+            savedItemImg.updateItemImg(originalImgName, imgName, imgPath);
         }
     }
-    */
 }
