@@ -3,16 +3,22 @@ package com.likelion.beshop.service;
 import com.likelion.beshop.dto.ItemFormDto;
 
 import com.likelion.beshop.dto.ItemImgDto;
+import com.likelion.beshop.dto.ItemSearchDto;
 import com.likelion.beshop.entity.Item;
 import com.likelion.beshop.entity.ItemImg;
 import com.likelion.beshop.repository.ItemImgRepository;
 import com.likelion.beshop.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,5 +85,10 @@ public class ItemService {
         }
         System.out.println("아이템 아이디 주기");
         return item.getId(); // 아이템 아이디 최종 리턴
+    }
+
+    @Transactional(readOnly = true) // 데이터 수정이 일어나지 않기 때문에 @Transactional(readOnly = true)로 설정
+    public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
+        return itemRepository.getAdminItemPage(itemSearchDto, pageable);
     }
 }

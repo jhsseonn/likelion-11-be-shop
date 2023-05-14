@@ -1,8 +1,13 @@
 package com.likelion.beshop.controller;
 
 import com.likelion.beshop.dto.ItemFormDto;
+import com.likelion.beshop.dto.ItemSearchDto;
+import com.likelion.beshop.entity.Item;
 import com.likelion.beshop.service.ItemService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -95,4 +101,18 @@ public class ItemController {
 
         return "redirect:/"; // 모든 로직이 성공했을 시 상위 경로로 돌아가기
     }
+
+    @GetMapping(value = {"/admin/items", "/admin/items/{page}"}) // 아이템 리스트 볼 수 있는 경로와 아이템 상세 페이지(수정페이지) 볼 수 있는 경로 2가지로 설정
+    public String itemManage(ItemSearchDto itemSearchDto,
+                             @PathVariable("page") Optional<Integer> page, Model model) {
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3); // 한 페이지에 볼 수 있는 아이템 개수 3개로 제한
+
+        Page<Item> items = itemService.getAdminItemPage(itemSearchDto, pageable); // 조회 조건과 페이징 정보를 파라미터로 넘겨 Page<Item> 객체 반환 받기
+
+        model.addAttribute("items", items); // 조회한 상품 데이터 및 페이징 정보를 뷰에 전달(items)
+        model.addAttribute("itemSearchDto", itemSearchDto); // 페이지 전환 시 기존 검색 조건을 유지한 채 이동할 수 있도록 뷰에 다시 전달
+        model.addAttribute("maxPage", 5); // 상품 관리 메뉴 하단에 보여줄 페이지 번호 최대 개수 5로 설정(maxPage)
+        return "item/itemMng"; // 최종적으로 item/itemMng로 이동
+    }
+
 }
