@@ -56,7 +56,23 @@ public class ItemService {
                 .orElseThrow(EntityNotFoundException::new);;
 
         ItemFormDto itemFormDto = ItemFormDto.convertItemFormDto(item);
-        itemFormDto.setItemImages(itemImgList);
+        itemFormDto.setItemImageDtos(itemImgDtoList);
         return itemFormDto;
+    }
+
+    //파일 수정
+    public Long updateItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgFileList) throws Exception {
+        Item item = itemRepository.findById(itemFormDto.getId())
+                .orElseThrow(EntityNotFoundException::new);
+        item.updateItem(itemFormDto);
+
+        List<Long> itemImgIds = itemFormDto.getItemImageIds();
+
+        for (int i = 0;i<itemImgIds.size(); i++){
+            itemImgService.updateItemImg(itemImgIds.get(i), itemImgFileList.get(i));
+        }
+
+
+        return item.getId();
     }
 }

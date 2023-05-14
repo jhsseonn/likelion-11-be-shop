@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -19,8 +20,8 @@ public class ItemFormDto {
     private Integer count;
     private ItemSellStatus itemSellStatus;
 
-    private List<ItemImg> itemImages;
-    private List<Long> itemImageIds;
+    private List<ItemImgDto> itemImageDtos = new ArrayList<>();
+    private List<Long> itemImageIds = new ArrayList<>();
 
     private static ModelMapper modelMapper = new ModelMapper();
     public Item convertItem() {

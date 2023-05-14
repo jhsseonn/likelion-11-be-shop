@@ -1,14 +1,25 @@
 package com.likelion.beshop.service;
 
+import com.likelion.beshop.dto.ItemFormDto;
+import com.likelion.beshop.entity.Item;
+import com.likelion.beshop.repository.ItemImgRepository;
+import com.likelion.beshop.repository.ItemRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.persistence.EntityNotFoundException;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.List;
 import java.util.UUID;
 
 //파일 업로드 및 파일 삭제 클래스
 @Service
 @Log
+@RequiredArgsConstructor
 public class FileService {
     //파일 업로드(파일저장경로, 업로드된 파일의 원본 파일명, 업로드된 파일 데이터)
     public String uploadFile(String uploadPath, String originalFileName, byte[] fileData) throws Exception{

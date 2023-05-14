@@ -144,7 +144,7 @@
 
     <div class="d-flex">
         <div class="repImgDiv">
-            <img th:src="${item.itemImages[0].imagePath}" class = "rounded repImg" th:alt="${item.name}">
+            <img th:src="${item.itemImageDtos.get(0).imagePath}" class = "rounded repImg" th:alt="${item.name}">
         </div>
         <div class="wd50">
             <span th:if="${item.itemSellStatus == T(com.likelion.beshop.constant.ItemSellStatus).SALE}" class="badge badge-primary mgb-15">
@@ -192,7 +192,7 @@
         </div>
     </div>
 
-    <div th:each="itemImg : ${item.itemImages}" class="text-center">
+    <div th:each="itemImg : ${item.itemImageDtos}" class="text-center">
         <img th:if="${not #strings.isEmpty(itemImg.imagePath)}" th:src="${itemImg.imagePath}" class="rounded mgb-15" width="800">
     </div>
 

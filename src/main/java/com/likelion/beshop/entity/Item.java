@@ -1,6 +1,7 @@
 package com.likelion.beshop.entity;
 
 import com.likelion.beshop.constant.ItemSellStatus;
+import com.likelion.beshop.dto.ItemFormDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -25,4 +26,12 @@ public class Item extends BaseEntity{
     private String description;
     @Enumerated(EnumType.STRING)
     private ItemSellStatus itemSellStatus;
+
+    public void updateItem(ItemFormDto itemFormDto) {
+        this.name = itemFormDto.getName();
+        this.price = itemFormDto.getPrice();
+        this.count = itemFormDto.getCount();
+        this.description = itemFormDto.getDescription();
+        this.itemSellStatus = itemFormDto.getItemSellStatus();
+    }
 }
