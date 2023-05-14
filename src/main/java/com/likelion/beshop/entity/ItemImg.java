@@ -22,10 +22,10 @@ public class ItemImg extends BaseEntity {
     @JoinColumn(name="item_id")
     private Item item;
 
-    public void UpdateltemImg(String originalFile, String updateFile, String imagePath)
+    public void UpdateltemImg(String originalFile, String fileName, String imagePath)
     {
         this.originalFileName = originalFile;
-        this.fileName = updateFile;
+        this.fileName = fileName;
         this.imagePath = imagePath;
     }
 }

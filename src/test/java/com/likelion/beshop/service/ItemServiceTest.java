@@ -62,7 +62,7 @@ class ItemServiceTest {
         //상품 등록
         Long itemId = itemService.saveItem(itemFormDto, multipartFileList);
         //상품이미지 가져오기
-        List<ItemImg> itemImgList = itemImgRepository.findByItemIdOrderById(itemId);
+        List<ItemImg> itemImgList = itemImgRepository.findByItemIdOrderByIdAsc(itemId);
 
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(EntityNotFoundException::new);

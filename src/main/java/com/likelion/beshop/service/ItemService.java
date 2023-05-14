@@ -2,18 +2,21 @@ package com.likelion.beshop.service;
 
 import com.likelion.beshop.dto.ItemFormDto;
 import com.likelion.beshop.dto.ItemImgDto;
+import com.likelion.beshop.dto.ItemSearchDto;
 import com.likelion.beshop.entity.Item;
 import com.likelion.beshop.entity.ItemImg;
 import com.likelion.beshop.repository.ItemImgRepository;
 import com.likelion.beshop.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,9 +47,9 @@ public class ItemService {
         }
         return item.getId();
     }
-    @org.springframework.transaction.annotation.Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public ItemFormDto getItemDtl(Long itemId){
-        List<ItemImg> itemImgList = itemImgRepository.findByItemIdOrderById(itemId);
+        List<ItemImg> itemImgList = itemImgRepository.findByItemIdOrderByIdAsc(itemId);
         List<ItemImgDto> itemImgDtoList = new ArrayList<>();
         for (ItemImg itemImg : itemImgList){
             ItemImgDto itemImgDto = ItemImgDto.fromEntity(itemImg);
@@ -71,8 +74,12 @@ public class ItemService {
         for (int i = 0;i<itemImgIds.size(); i++){
             itemImgService.updateItemImg(itemImgIds.get(i), itemImgFileList.get(i));
         }
-
-
         return item.getId();
     }
+
+    @Transactional(readOnly = true)
+    public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
+        return itemRepository.getAdminItemPage(itemSearchDto, pageable);
+    }
+
 }
