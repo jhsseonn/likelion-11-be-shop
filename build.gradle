@@ -48,7 +48,7 @@ dependencies {
 	annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
 	//modelmapper
 	implementation 'org.modelmapper:modelmapper:2.3.9'
-
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 }
 
 tasks.named('test') {

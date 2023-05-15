@@ -46,8 +46,6 @@ public class OrderTest {
         item.setDetail("상세설명1");
         item.setPrice(10000);
         item.setSellStatus(ItemSellStatus.SELLING);
-        item.setRegisterTime(LocalDateTime.now());
-        item.setUpdateTime(LocalDateTime.now());
         Item savedItem = itemRepository.save(item);
         return item;
     }

@@ -39,8 +39,6 @@ public class ItemRepositoryTest {
         item.setDetail("ss");
         item.setPrice(123);
         item.setSellStatus(ItemSellStatus.SELLING);
-        item.setRegisterTime(LocalDateTime.now());
-        item.setUpdateTime(LocalDateTime.now());
         Item savedItem = itemRepository.save(item);
         System.out.println(savedItem.toString());
     }
@@ -65,8 +63,6 @@ public class ItemRepositoryTest {
             item.setDetail("ss");
             item.setPrice(100*i);
             item.setSellStatus(ItemSellStatus.SELLING);
-            item.setRegisterTime(LocalDateTime.now());
-            item.setUpdateTime(LocalDateTime.now());
             Item savedItem = itemRepository.save(item);
 
             item.setSellStatus(ItemSellStatus.SELLING);

@@ -15,11 +15,11 @@ import java.util.List;
 @Setter
 public class Order extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @Column(name = "order_id")
     private  Long id;
     private LocalDateTime orderDate; // 주문일
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")//외래키명 member_id
@@ -29,11 +29,29 @@ public class Order extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus; // 주문상태
 
-    private LocalDateTime registrationtime; // 등록시간
 
-    private LocalDateTime correctiontime; // 수정시간
-
-
+    public void addOrderItem(OrderItem orderItem) {
+        orderItems.add(orderItem);
+        orderItem.setOrder(this);
+    }
+    public static Order createOrder(Member member, List<OrderItem> orderItems) {
+        Order order = new Order();
+        order.setMember(member);
+        for (OrderItem orderItem : orderItems) {
+            order.addOrderItem(orderItem);
+        }
+        order.setOrderStatus(OrderStatus.ORDER);
+        order.setOrderDate(LocalDateTime.now());
+        return order;
+    }
+    public int getTotalPrice() {
+        // 전체 주문 가격
+        int totalPrice = 0;
+        for (OrderItem orderItem : orderItems) {
+            totalPrice += orderItem.getTotalPrice();//b
+        }
+        return totalPrice;
+    }
 
 
 

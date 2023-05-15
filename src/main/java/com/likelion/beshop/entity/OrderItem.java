@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 public class OrderItem extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @Column(name = "orderitem_id")
     private  Long id;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -27,6 +27,20 @@ public class OrderItem extends BaseEntity {
 
     private int orderPrice;//주문 가격
     private int num; // 주문수량
+
+    public static OrderItem createOrderItem(Item item, int num) {
+        OrderItem orderItem = new OrderItem();
+        orderItem.setItem(item);
+        orderItem.setNum(num);
+        orderItem.setOrderPrice(item.getPrice());
+        item.removeStockNum(num); // 수량 감소
+        return orderItem;
+    }
+
+    public int getTotalPrice() {
+        int totalPrice = orderPrice * this.num;
+        return totalPrice;//=orderPrice?
+    }
 
 
 }
