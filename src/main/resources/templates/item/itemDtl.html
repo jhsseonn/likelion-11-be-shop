@@ -144,7 +144,7 @@
 
         <div class="d-flex">
             <div class="repImgDiv">
-                <img th:src="${item.itemImgDtoList[0].imagePath}" class = "rounded repImg" th:alt="${item.name}"> // item.itemImgDtoList[0].imagePath 부분이 문제라네요..
+                <img th:src="${item.itemImgDtoList[0].imagePath}" class = "rounded repImg" th:alt="${item.name}">
             </div>
             <div class="wd50">
                 <span th:if="${item.status == T(com.likelion.beshop.constant.ItemSellStatus).SELLING}" class="badge badge-primary mgb-15">
