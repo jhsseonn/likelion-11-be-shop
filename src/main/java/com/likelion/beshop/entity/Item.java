@@ -3,6 +3,7 @@ package com.likelion.beshop.entity;
 import com.likelion.beshop.constant.ItemSellStatus;
 import com.likelion.beshop.constant.Role;
 import com.likelion.beshop.dto.ItemFormDto;
+import com.likelion.beshop.exception.OutOfStockException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -10,6 +11,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
+
 
 @Entity
 @Table(name="item")
@@ -43,5 +45,14 @@ public class Item extends BaseEntity{
         this.num = itemFormDto.getNum();
         this.content= itemFormDto.getContent();
         this.status = itemFormDto.getStatus();
+    }
+
+
+    public void removeStock(int stockNumber){
+        int restStock = this.num - stockNumber;
+        if(restStock < 0){
+            throw new OutOfStockException("상품의 재고가 부족 합니다. (현재 재고 수량 : " + this.num + ")");
+        }
+        this.num = restStock;
     }
 }

@@ -22,6 +22,7 @@ public class Member extends BaseEntity { // BaseEntity 받아 옴
     //기본키가 있는 멤버가 됨
 
     private String name;
+
     @Column(unique = true)
     private String email;
     private String password;
