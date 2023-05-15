@@ -38,8 +38,8 @@ public class Member extends BaseEntity{
 
         String pwd = passwordEncoder.encode(memberFormDto.getPassword());
         member.setPassword(pwd);
-        //member.setRole(Role.USER); // USER로 접근
-        member.setRole(Role.ADMIN); // ADMIN으로 접근
+        member.setRole(Role.USER); // USER로 접근
+        //member.setRole(Role.ADMIN); // ADMIN으로 접근
         return member;
     }
 

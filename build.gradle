@@ -51,6 +51,8 @@ dependencies {
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.9'
 
 
+	// thymeleaf layout 적용 위한 의존성 추가
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 
 }
 
