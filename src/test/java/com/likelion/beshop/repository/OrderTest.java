@@ -57,7 +57,7 @@ public class OrderTest {
             OrderItem orderItem = new OrderItem();
             orderItem.setItem(item); // 주문 상품으로 변경
             orderItem.setOrder(order);
-            orderItem.setPayment(50000);
+            orderItem.setOrderPrice(50000);
             orderItem.setCount(5);
 
             order.getOrderItems().add(orderItem); // 주문 상품 배열에 넣기
@@ -80,7 +80,7 @@ public class OrderTest {
             OrderItem orderItem = new OrderItem();
             orderItem.setItem(item);
             orderItem.setOrder(order);
-            orderItem.setPayment(50000);
+            orderItem.setOrderPrice(50000);
             orderItem.setCount(5);
 
             order.getOrderItems().add(orderItem);

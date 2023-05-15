@@ -37,7 +37,7 @@ public class Member extends Base {
         member.setEmail(memberFormDto.getEmail());
         String pwd = passwordEncoder.encode(memberFormDto.getPassword());
         member.setPassword(pwd);
-        member.setRole(Role.ADMIN);
+        member.setRole(Role.USER);
         member.setAddress(memberFormDto.getAddress());
 
         return member;

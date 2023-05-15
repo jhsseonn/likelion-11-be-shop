@@ -1,9 +1,11 @@
-package com.likelion.beshop.repository;
+package com.likelion.beshop.service;
 
 import com.likelion.beshop.constant.ItemSellStatus;
 import com.likelion.beshop.dto.ItemFormDto;
 import com.likelion.beshop.entity.Item;
 import com.likelion.beshop.entity.ItemImg;
+import com.likelion.beshop.repository.ItemImgRepository;
+import com.likelion.beshop.repository.ItemRepository;
 import com.likelion.beshop.service.ItemService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
