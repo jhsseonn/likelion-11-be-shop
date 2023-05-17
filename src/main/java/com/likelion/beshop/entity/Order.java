@@ -42,5 +42,31 @@ public class Order extends BaseEntity{
     @OneToMany(mappedBy="orders", cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    public void addOrderItem(OrderItem orderItem){
 
+        orderItems.add(orderItem); //주문 객체에 주문 상품 객체 연결
+        orderItem.setOrders(this); // 주문 상품 객체에 주문 객체 연결(연관관계 주인)
+    }
+
+
+    public static Order createOrder(Member member, List<OrderItem> orderItemList) {
+        Order order = new Order();
+        order.setMember(member);
+        for(OrderItem orderItem : orderItemList) {
+            order.addOrderItem(orderItem);
+        }
+        order.setOrderstatus(OrderStatus.ORDER);
+        order.setDate(LocalDateTime.now());
+        return order;
+    }
+
+    public int getTotalPrice(){
+        int totalPrice = 0;
+
+        //각 상품마다 TotalPrice 를 구하고 모두 더함
+        for(OrderItem orderItem : orderItems){
+            totalPrice += orderItem.getTotalPrice();
+        }
+        return totalPrice;
+    }
 }

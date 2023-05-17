@@ -13,14 +13,14 @@
     <script th:inline="javascript">
         $(document).ready(function(){
 
-            calculateToalPrice();
+            calculateTotalPrice();
 
             $("#stockNumber").change( function(){
-                calculateToalPrice();
+                calculateTotalPrice();
             });
         });
 
-        function calculateToalPrice(){
+        function calculateTotalPrice(){
             var count = $("#stockNumber").val();
             var price = $("#price").val();
             var totalPrice = price*count;
@@ -33,7 +33,7 @@
 
             var url = "/order";
             var paramData = {
-                itemId : $("#id").val(),
+                itemId : $("#itemId").val(),
                 count : $("#stockNumber").val()
             };
 
@@ -73,7 +73,7 @@
 
             var url = "/cart";
             var paramData = {
-                itemId : $("#id").val(),
+                itemId : $("#itemId").val(),
                 count : $("#stockNumber").val()
             };
 
@@ -165,7 +165,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">수량</span>
                     </div>
-                    <input type="number" name="count" id="count" class="form-control" value="1" min="1">
+                    <input type="number" name="count" id="stockNumber" class="form-control" value="1" min="1">
                 </div>
             </div>
             <hr class="my-4">
