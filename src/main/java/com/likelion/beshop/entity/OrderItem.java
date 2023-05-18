@@ -33,4 +33,21 @@ public class OrderItem extends BaseEntity  {
 
     //private LocalDateTime editTime;
 
+
+    public static OrderItem createOrderItem(Item item, int count)
+    {
+        OrderItem orderItem = new OrderItem(); //orderItem 객체 생성
+        orderItem.setItem(item);
+        orderItem.setCount(count);
+        orderItem.setPrice(item.getPrice());
+
+        item.removeStock(count);
+        return orderItem;
+    }
+
+    public int getTotalPrice(){
+        return price* count;
+    }
+
+
 }

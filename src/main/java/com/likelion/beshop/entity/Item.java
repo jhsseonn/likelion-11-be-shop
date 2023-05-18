@@ -1,20 +1,20 @@
 package com.likelion.beshop.entity;
 
 import com.likelion.beshop.constant.ItemSellStatus;
+import com.likelion.beshop.constant.OutOfStockException;
 import com.likelion.beshop.dto_.ItemFormDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "item")
 @Getter
 @Setter
 @ToString
-public class Item extends BaseEntity  {
+public class Item extends BaseEntity {
     @Id
     @Column(name = "item_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -47,4 +47,11 @@ public class Item extends BaseEntity  {
         this.itemSellStatus = itemFormDto.getItemSellStatus();
     }
 
+    public void removeStock(int stockNumber) {
+        int restStock = this.stockNumber - stockNumber;
+        if (restStock < 0) {
+            throw new OutOfStockException("상품 재고가 부족합니다.(현재 재고 수량 : " + this.stockNumber + ")");
+        }
+        this.stockNumber = restStock;
+    }
 }
