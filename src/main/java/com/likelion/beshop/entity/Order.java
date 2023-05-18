@@ -61,4 +61,14 @@ public class Order extends BaseEntity{
         }
         return totalPrice;
     }
+
+    // 반환값과 매개변수는 없다.
+    public void cancelOrder() {
+        this.status = OrderStatus.UNDO; // 주문 상태를 ‘주문취소’로 변경
+
+        // 주문을 할 때에는, 하나의 상품만 주문하지 않고 여러개의 상품을 주문한다. 이 모든 것에 대해 상품 별로 취소해주기 (함수를 사용할 것!) -> FOR문 사용
+        for (OrderItem orderItem : orderItems) {
+            orderItem.cancel();
+        }
+    }
 }

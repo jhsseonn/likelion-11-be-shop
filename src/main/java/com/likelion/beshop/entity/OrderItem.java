@@ -49,4 +49,10 @@ public class OrderItem extends BaseEntity{
     public  int getTotalPrice() {
         return price * num; // _orderPrice_와 _num_를 곱하여 주문 가격 계산값을 반환
     }
+
+    // 반환값과 매개변수는 없다.
+    // 함수를 사용해 해당 상품의 재고에 주문 수량만큼 더해주기
+    public void cancel() {
+        this.getItem().addStock(num);
+    }
 }

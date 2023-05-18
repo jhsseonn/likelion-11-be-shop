@@ -55,4 +55,9 @@ public class Item extends BaseEntity{
         }
         this.num = restStock;
     }
+
+    //반환값은 없다.
+    public void addStock(int stockNumber){ // 매개변수로 주문한 수량 받아오기
+        this.num += stockNumber; // 상품 재고에 주문 수량만큼 더해주기
+    }
 }
