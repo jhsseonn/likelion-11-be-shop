@@ -1,8 +1,10 @@
 package com.likelion.beshop.service;
 
 import com.likelion.beshop.constant.ItemSellStatus;
+import com.likelion.beshop.constant.OrderStatus;
 import com.likelion.beshop.dto.ItemFormDto;
 import com.likelion.beshop.dto.OrderDto;
+import com.likelion.beshop.dto.OrderHistDto;
 import com.likelion.beshop.entity.Item;
 import com.likelion.beshop.entity.Member;
 import com.likelion.beshop.entity.Order;
@@ -23,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
 
 import static com.likelion.beshop.constant.ItemSellStatus.SELLING;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
@@ -32,7 +34,7 @@ public class OrderServiceTest {
     @Autowired
     MemberRepository memberRepository;
     @Autowired
-    com.likelion.beshop.repository.ItemRepository ItemRepository;
+    com.likelion.beshop.repository.ItemRepository itemRepository;
     @Autowired
     OrderRepository orderRepository;
     @Autowired
@@ -44,7 +46,7 @@ public class OrderServiceTest {
         item.setDetail("12");
         item.setStockNum(13);
         item.setSellStatus(ItemSellStatus.SELLING);
-        return ItemRepository.save(item);
+        return itemRepository.save(item);
     }
     public Member saveMember(){
         Member member = new Member();
@@ -67,6 +69,25 @@ public class OrderServiceTest {
         int totalPrice = orderDto.getCount() * item.getPrice();
         assertEquals(totalPrice, order.getTotalPrice());
 
+    }
+
+    @Test
+    @DisplayName("주문 취소 테스트")
+    public void cancelOrder(){
+        Item item = saveItem();
+        Member member = saveMember();
+
+        OrderDto orderDto = new OrderDto();
+        orderDto.setItemId(item.getId());
+        orderDto.setCount(1);
+        Long orderId = orderService.order(orderDto, member.getEmail());
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(EntityNotFoundException::new);
+        orderService.cancelOrder(orderId);
+
+        assertEquals(OrderStatus.CANCEL,order.getOrderStatus());
+        assertEquals(13,item.getStockNum());
     }
 
 }

@@ -1,21 +1,27 @@
 package com.likelion.beshop.service;
 
 import com.likelion.beshop.dto.OrderDto;
-import com.likelion.beshop.entity.Item;
-import com.likelion.beshop.entity.Member;
-import com.likelion.beshop.entity.Order;
-import com.likelion.beshop.entity.OrderItem;
+import com.likelion.beshop.dto.OrderHistDto;
+import com.likelion.beshop.dto.OrderItemDto;
+import com.likelion.beshop.entity.*;
+import com.likelion.beshop.repository.ItemImgRepository;
 import com.likelion.beshop.repository.ItemRepository;
 import com.likelion.beshop.repository.MemberRepository;
 import com.likelion.beshop.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.jaxb.SpringDataJaxb;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.util.StringUtils;
 
 import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -23,7 +29,9 @@ public class OrderService {
     private final ItemRepository itemRepository;
     private final MemberRepository memberRepository;
     private final OrderRepository orderRepository;
-    public Long order(OrderDto orderDto, String email){
+    private final ItemImgRepository itemImgRepository;
+
+    public Long order(OrderDto orderDto, String email) {
         Item item = itemRepository.findById(orderDto.getItemId()).orElseThrow(EntityNotFoundException::new);
         Member member = memberRepository.findByEmail(email);
 
@@ -39,4 +47,44 @@ public class OrderService {
 
     }
 
+    @Transactional(readOnly = true)
+    public Page<OrderHistDto> getOrderList(String email, Pageable pageable) {
+        List<Order> orders = orderRepository.findOrders(email, pageable);
+        Long totalCount = orderRepository.countOrder(email);
+
+        List<OrderHistDto> orderHistDtos = new ArrayList<>();
+
+        for (Order order : orders) {
+            OrderHistDto orderHistDto = new OrderHistDto(order);
+            List<OrderItem> orderItems = order.getOrderItems();
+            for (OrderItem orderItem : orderItems) {
+                ItemImg itemimg = itemImgRepository.findByItemIdAndRepimgYn(orderItem.getItem().getId(), "Y");
+                OrderItemDto orderItemDto =
+                        new OrderItemDto(orderItem, itemimg.getImgUrl());
+                orderHistDto.addOrderItemDto(orderItemDto);
+            }
+            orderHistDtos.add(orderHistDto);
+        }
+
+        return new PageImpl<OrderHistDto>(orderHistDtos, pageable, totalCount);
+    }
+
+    @Transactional(readOnly = true)
+    public boolean validateOrder(Long orderId, String email){
+        Member member = memberRepository.findByEmail(email);
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(EntityNotFoundException::new);
+        Member savedMember = order.getMember();
+
+        if(!StringUtils.equals(member.getEmail(),savedMember.getEmail())){
+            return false;
+        }
+        return true;
+    }
+
+    public void cancelOrder(Long orderId){
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(EntityNotFoundException::new);
+        order.cancleOrder();
+    }
 }
