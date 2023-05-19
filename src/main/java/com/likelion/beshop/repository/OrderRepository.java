@@ -1,8 +1,23 @@
 package com.likelion.beshop.repository;
 
 import com.likelion.beshop.entity.Order;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
+    @Query("select i from Order i " +
+            "where i.member.email = :email " +
+            "order by i.orderDate desc"
+    )
+    List<Order> findOrders(@Param("email") String email, Pageable pageable);
+
+    @Query("select count(i) from Order i " +
+            "where i.member.email = :email"
+    )
+    Long countOrder(@Param("email") String email);
 }
