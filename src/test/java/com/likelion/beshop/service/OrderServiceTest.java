@@ -1,6 +1,7 @@
 package com.likelion.beshop.service;
 
 import com.likelion.beshop.constant.ItemSellStatus;
+import com.likelion.beshop.constant.OrderStatus;
 import com.likelion.beshop.dto.ItemFormDto;
 import com.likelion.beshop.dto.MemberFormDto;
 import com.likelion.beshop.dto.OrderDto;
@@ -50,6 +51,7 @@ public class OrderServiceTest {
         item.setStock(50);
         item.setItemDetail("상품 상세 설명");
         item.setItemSellStatus(ItemSellStatus.SELL);
+
         return itemRepository.save(item);
     }
 
@@ -76,9 +78,25 @@ public class OrderServiceTest {
         int totalPrice = orderDto.getCount() * item.getPrice();
 
         assertEquals(order.getTotalPrice(), totalPrice);
-
-
     }
 
+    @Test
+    @DisplayName("주문 취소 테스트")
+    public void cancelOrder() throws Exception {
+        Item item = saveItem();
+        Member member = saveMember();
+
+        OrderDto orderDto = new OrderDto();
+        orderDto.setCount(10);
+        orderDto.setItemId(item.getId());
+
+        Long orderId = orderService.order(orderDto, member.getEmail());
+        Order order = orderRepository.findById(orderId).orElseThrow(EntityNotFoundException::new);
+
+        orderService.cancelOrder(orderId);
+
+        assertEquals(OrderStatus.CANCEL, order.getOrderStatus());
+        assertEquals(50, item.getStock());
+    }
 
 }

@@ -41,7 +41,8 @@ public class Item extends Base {
         this.itemSellStatus = itemFormDto.getItemSellStatus();
     }
 
-    private void removeStock(int orderStock) { // 주문 수량을 매개변수로 받아옴
+    // 주문 시 주문 수량만큼 재고 수 감소
+    public void removeStock(int orderStock) { // 주문 수량을 매개변수로 받아옴
 
         // 현재 재고보다 주문 수량이 많다면 오류 메시지 출력
         if (this.stock < orderStock) {
@@ -50,6 +51,11 @@ public class Item extends Base {
         }
         // 정상 주문이면 재고에서 주문 수량 감소시키고 업데이트
         this.stock = this.stock - orderStock;
+    }
+
+    // 주문 취소 시 취소 수량만큼 재고 수 증가
+    public void addStock(int orderStock) {
+        this.stock += orderStock;
     }
 
 }

@@ -23,9 +23,11 @@ public class Order extends Base {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id; // PK
 
+    // 주문 상태
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
+    // 주문한 멤버
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member; // FK
@@ -33,9 +35,11 @@ public class Order extends Base {
     // 주문 시간
     private LocalDateTime orderDate;
 
+    // 주문한 상품 리스트
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch=FetchType.LAZY) // Order 엔티티가 연관관계의 주인이 됨
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    // 주문 상품 추가
     public void addOrderItem(OrderItem orderItem) {
         // orderItems 배열에 추가
 
@@ -44,6 +48,7 @@ public class Order extends Base {
         orderItem.setOrder(this);
     }
 
+    // 주문 객체 생성 (주문 하기)
     public static Order createOrder(Member member, List<OrderItem> orderItemList) {
         Order order = new Order();
         // 사용자 세팅
@@ -61,12 +66,23 @@ public class Order extends Base {
         return order;
     }
 
+    // 주문 상품 총 가격 리턴
     public int getTotalPrice() {
         int totalPrice = 0;
         for (OrderItem orderItem : orderItems) {
             totalPrice += orderItem.getTotalPrice();
         }
         return totalPrice;
+    }
+
+    // 주문 취소 후 주문 상태 CANCEL로 변경
+    public void cancelOrder() {
+        this.orderStatus = OrderStatus.CANCEL;
+
+        // 해당 주문의 주문 상품들 리스트 돌며 해당 상품 재고 수 증가
+        for (OrderItem orderItem : orderItems) {
+            orderItem.cancel();
+        }
     }
 
 }
