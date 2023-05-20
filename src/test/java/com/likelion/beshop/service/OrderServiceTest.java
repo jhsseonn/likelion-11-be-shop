@@ -1,5 +1,6 @@
 package com.likelion.beshop.service;
 
+import com.likelion.beshop.constant.OrderStatus;
 import com.likelion.beshop.dto.OrderDto;
 import com.likelion.beshop.entity.Item;
 import com.likelion.beshop.entity.Member;
@@ -72,4 +73,27 @@ class OrderServiceTest {
 
         assertEquals(totalPrice, order.getTotalPrice());
     }
+
+    @Test
+    @DisplayName("주문 취소 테스트")
+    public void cancelOrder(){
+        // 상품과 회원 저장 메소드 호출
+        Item item = saveItem();
+        Member member = saveMember();
+
+        // OrderDto에 주문할 상품, 수량 세팅
+        OrderDto orderDto = new OrderDto();
+        orderDto.setCount(10);
+        orderDto.setItemId(item.getId());
+        Long orderId = orderService.order(orderDto, member.getEmail()); // 주문 로직 호출 결과로 생성된 주문 번호를 orderId라는 변수에 저장
+
+        // 주문 번호로 저장된 주문 조회
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(EntityNotFoundException::new);
+        orderService.cancelOrder(orderId); // 해당 주문 취소
+
+        assertEquals(OrderStatus.UNDO, order.getStatus()); // assertEquals 사용하여 주문 상태 '취소'와 주문의 주문 상태 비교
+        assertEquals(100, item.getNum()); // assertEquals 사용하여 saveItem에서 지정해준 재고수와 취소 후 상품 재고수 비교
+    }
+
 }

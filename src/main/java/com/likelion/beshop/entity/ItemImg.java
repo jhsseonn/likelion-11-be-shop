@@ -27,7 +27,7 @@ public class ItemImg extends BaseEntity{
     private String repImage;
 
     @ManyToOne(fetch = FetchType.LAZY) // 상품 엔티티와 N:1 단방향 매핑, 지연 로딩으로 설정
-    @JoinColumn(name = "item_id") // 이 부분을 추가하였더니, db에는 존재하지만 이전에 생성한 아이템들이 조회가 되지 않습니다..!
+    @JoinColumn(name = "item_id")
     private Item item;
 
     public void updateItemImg(String originalImageName, String imageName, String imagePath) {

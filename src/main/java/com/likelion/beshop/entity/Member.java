@@ -39,7 +39,7 @@ public class Member extends BaseEntity { // BaseEntity 받아 옴
         String pwd = passwordEncoder.encode(memberFormDto.getPassword());
         member.setPassword(pwd);
         member.setAddress(memberFormDto.getAddress());
-        member.setRole(Role.ADMIN); //가입할 때, 권한을 User가 아닌 Admin으로 주고 싶다면 이곳을 수정.
+        member.setRole(Role.USER); //가입할 때, 권한을 User가 아닌 Admin으로 주고 싶다면 이곳을 수정.
 
         return member;
     }
