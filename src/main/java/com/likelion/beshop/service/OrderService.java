@@ -36,7 +36,7 @@ public class OrderService {
         Item item = itemRepository.findById(orderDto.getItemId())
                 .orElseThrow(EntityNotFoundException::new);
 
-        Member member = memberRepository.findByName(email);
+        Member member = memberRepository.findByEmail(email);
 //        System.out.println(authentication.getName());
 
         List<OrderItem> orderItemList = new ArrayList<>();
@@ -76,13 +76,13 @@ public class OrderService {
     }
 
     @Transactional(readOnly = true)
-    public boolean validateOrder(Long orderId, String name){
-        Member member = memberRepository.findByName(name);
+    public boolean validateOrder(Long orderId, String email){
+        Member member = memberRepository.findByEmail(email);
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(EntityNotFoundException::new);
         Member savedMember = order.getMember();
 
-        if (!StringUtils.equals(name, savedMember.getName())){
+        if (!StringUtils.equals(email, savedMember.getEmail())){
             return false;
         }
         return true;
