@@ -28,5 +28,19 @@ public class CartItem extends BaseEntity{
 
     private  int num;
 
+    // CartItem 생성자 함수
+    public static CartItem createCartItem(Cart cart, Item item, int count) {
+        CartItem cartItem = new CartItem();
+        cartItem.setCart(cart);
+        cartItem.setItem(item);
+        cartItem.setNum(count);
+        return cartItem;
+    }
+
+    // count 매개변수로 받아서 cartItem count 값 올려주기
+    public void addCount(int count){
+        this.num += count;
+    }
+
 }
 
