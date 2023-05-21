@@ -68,4 +68,12 @@ public class Order {
         return totalPrice;
 
     }
+
+    public void cancelOrder(){
+        this.orderStatus = OrderStatus.CANCELL;
+
+        for(OrderItem orderItem : orderItems){
+            orderItem.cancel();
+        }
+    }
 }
