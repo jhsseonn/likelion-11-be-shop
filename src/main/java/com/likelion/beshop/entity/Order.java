@@ -21,9 +21,6 @@ public class Order extends BaseEntity{
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="member_id")
     private Member member;
-//    @ManyToOne()
-//    @JoinColumn(name="order_item_id")
-//    private OrderItem orderItem;
     @OneToMany(mappedBy="order", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();
     private LocalDateTime orderTime;
@@ -43,6 +40,7 @@ public class Order extends BaseEntity{
         }
         order.setOrderStatus(OrderStatus.ORDER);
         order.setOrderTime(LocalDateTime.now());
+
         return order;
     }
 

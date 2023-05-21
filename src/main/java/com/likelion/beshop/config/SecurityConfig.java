@@ -20,30 +20,58 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    public AuthenticationSuccessHandler authenticationSuccessHandler(){
-//        return new CustomAuthenticationSuccessHandler();
-//    }
-
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.formLogin()
                 .loginPage("/members/login")
                 .defaultSuccessUrl("/")
                 .usernameParameter("email")
                 .failureUrl("/members/login/error")
-                .successHandler(new CustomAuthenticationSuccessHandler())
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout"))
                 .logoutSuccessUrl("/");
+
+
+
+        // 보안검사
         http.authorizeRequests()
                 .mvcMatchers("/css/**", "/js/**", "/img/**").permitAll()
                 .mvcMatchers("/", "/members/**", "/item/**", "/images/**").permitAll()
                 .mvcMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated();
+
+        // 인증 실패시 대처 방법 커스텀
         http.exceptionHandling()
                 .authenticationEntryPoint(new CustomAuthenticationEntryPoint());
+
         return http.build();
     }
+
+//    @Bean
+//    public AuthenticationSuccessHandler authenticationSuccessHandler(){
+//        return new CustomAuthenticationSuccessHandler();
+//    }
+
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+//        http.formLogin()
+//                .loginPage("/members/login")
+//                .defaultSuccessUrl("/")
+//                .usernameParameter("email")
+//                .failureUrl("/members/login/error")
+//                .successHandler(new CustomAuthenticationSuccessHandler())
+//                .and()
+//                .logout()
+//                .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout"))
+//                .logoutSuccessUrl("/");
+//        http.authorizeRequests()
+//                .mvcMatchers("/css/**", "/js/**", "/img/**").permitAll()
+//                .mvcMatchers("/", "/members/**", "/item/**", "/images/**").permitAll()
+//                .mvcMatchers("/admin/**").hasRole("ADMIN")
+//                .anyRequest().authenticated();
+//        http.exceptionHandling()
+//                .authenticationEntryPoint(new CustomAuthenticationEntryPoint());
+//        return http.build();
+//    }
 }

@@ -4,8 +4,6 @@ import com.likelion.beshop.dto.MemberFormDto;
 import com.likelion.beshop.entity.Member;
 import com.likelion.beshop.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,10 +11,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
-import java.util.Collection;
 
 @RequestMapping("/members")
 @Controller
@@ -36,15 +32,15 @@ public class MemberController {
         return "redirect:/members/login";
     }
 
-    @PostMapping(value="/login")
-    public String loginMember(@RequestParam("email") String email, Authentication authentication, Model model){
-        if (authentication.isAuthenticated() && memberService.isAuthenticatedAdmin(email))
-            return "redirect:/admin";
-        else if (authentication.isAuthenticated())
-            return "redirect:/";
-        model.addAttribute("login_error", "로그인에 실패했습니다.");
-        return "member/MemberLoginForm";
-    }
+//    @PostMapping(value="/login")
+//    public String loginMember(@RequestParam("email") String email, Authentication authentication, Model model){
+//        if (authentication.isAuthenticated() && memberService.isAuthenticatedAdmin(email))
+//            return "redirect:/admin";
+//        else if (authentication.isAuthenticated())
+//            return "redirect:/";
+//        model.addAttribute("login_error", "로그인에 실패했습니다.");
+//        return "member/MemberLoginForm";
+//    }
 
 
     @GetMapping(value="/new")

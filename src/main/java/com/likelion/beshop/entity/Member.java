@@ -5,14 +5,9 @@ import com.likelion.beshop.dto.MemberFormDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Collection;
 
 @Entity
 @Table(name="member")
@@ -22,6 +17,7 @@ public class Member extends BaseEntity {
     @Column(name="member_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(unique = true)
     private String name;
     @Column(unique = true)
     private String email;
@@ -44,17 +40,17 @@ public class Member extends BaseEntity {
         return member;
     }
 
-    public interface UserDetailService{
-        UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
-    }
-
-    public interface UserDetails extends Serializable {
-        Collection<? extends GrantedAuthority> getAuthorities();
-        String getPassword();
-        String getUsername();
-        boolean isAccountNonExpired();
-        boolean isAccountNonLocked();
-        boolean isCredentialsNonExpired();
-        boolean isEnabled();
-    }
+//    public interface UserDetailService{
+//        UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+//    }
+//
+//    public interface UserDetails extends Serializable {
+//        Collection<? extends GrantedAuthority> getAuthorities();
+//        String getPassword();
+//        String getUsername();
+//        boolean isAccountNonExpired();
+//        boolean isAccountNonLocked();
+//        boolean isCredentialsNonExpired();
+//        boolean isEnabled();
+//    }
 }

@@ -1,31 +1,35 @@
 package com.likelion.beshop.controller;
 
 import com.likelion.beshop.dto.OrderDto;
+import com.likelion.beshop.dto.OrderHistDto;
 import com.likelion.beshop.entity.Order;
 import com.likelion.beshop.repository.MemberRepository;
 import com.likelion.beshop.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
+
 
 @RequestMapping("")
 @Controller
 @RequiredArgsConstructor
 public class OrderController {
-
-    private final MemberRepository memberRepository;
     private final OrderService orderService;
 
     @PostMapping(value="/order")
@@ -40,15 +44,36 @@ public class OrderController {
             }
             return new ResponseEntity<String>(sb.toString(), HttpStatus.BAD_REQUEST);
         }
-        String email = principal.getName();
+        String name = principal.getName();
+//        System.out.println("email:"+email);
         Long orderId;
 
         try{
-            orderId = orderService.order(orderDto, email);
+            orderId = orderService.order(orderDto, name);
         } catch (Exception e){
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<Long>(orderId, HttpStatus.OK);
     }
 
+    @GetMapping(value={"/orders", "/orders/{page}"})
+    public String orderHist(@PathVariable("page") Optional<Integer> page, Principal principal, Model model){
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get(): 0, 4);
+        Page<OrderHistDto> ordersHistDtoList = orderService.getOrderList(principal.getName(), pageable);
+
+        model.addAttribute("orders", ordersHistDtoList);
+//        System.out.println(ordersHistDtoList.getContent().toString());
+        model.addAttribute("page", pageable.getPageNumber());
+        model.addAttribute("maxPage", 5);
+
+        return "order/orderHist";
+    }
+
+    @PostMapping(value="/orders/{orderId}/cancel")
+        public @ResponseBody ResponseEntity cancelOrder(@PathVariable("orderId") Long orderId, Principal principal) throws Exception{
+            if (orderService.validateOrder(orderId, principal.getName()) == false)
+                    return new ResponseEntity<String>("주문 취소 권한이 없습니다.", HttpStatus.FORBIDDEN);
+            orderService.cancelOrder(orderId);
+            return new ResponseEntity<Long>(orderId, HttpStatus.OK);
+        }
 }
