@@ -27,4 +27,19 @@ public class CartItem extends Base {
 
     @NotNull
     private Integer count;
+
+    // CartItem 객체 생성 (카트 객체에 아이템을 카트 아이템으로 바꾸어 담아줌)
+    public static CartItem createCartItem(Cart cart, Item item, int count) {
+        CartItem cartItem = new CartItem();
+        cartItem.setCart(cart);
+        cartItem.setItem(item);
+        cartItem.setCount(count);
+
+        return cartItem;
+    }
+
+    // 장바구니 아이템 개수 증가
+    public void addCount(int count) {
+        this.count += count;
+    }
 }

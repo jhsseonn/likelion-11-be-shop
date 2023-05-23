@@ -22,4 +22,11 @@ public class Cart extends Base {
     private Member member; // FK
 
     // 변수명에는 언더바 사용 불가
+
+    // 카트 객체 생성
+    public static Cart createCart(Member member) {
+        Cart cart = new Cart();
+        cart.member = member;
+        return cart;
+    }
 }

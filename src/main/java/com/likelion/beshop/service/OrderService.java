@@ -30,7 +30,6 @@ public class OrderService {
     private final ItemImgRepository itemImgRepository;
 
     // 주문 로직
-    @Transactional
     public Long order(OrderDto orderDto, String email) {
 
         // 주문할 상품 조회

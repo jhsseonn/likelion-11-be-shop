@@ -13,7 +13,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     Order findById(Order order);
 
     // 현재 로그인한 회원의 주문 데이터를 페이징 조건에 맞춰 조회
-    @Query("select o from Order o " + // Order 테이블에서
+    @Query("select o from Order o " + // Order 객체에서
             "where o.member.email = :email " + // 파라미터의 이메일과 같은 이메일을 가진 멤버의
             "order by o.orderDate desc" // 주문 내역을 날짜 역순으로 정렬
     )
