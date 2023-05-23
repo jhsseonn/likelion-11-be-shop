@@ -30,4 +30,18 @@ public class CartItem extends BaseEntity{
     @Column(nullable = false)
     private int count;
 
+    public static CartItem createCartItem(Item item, Cart cart, int count){
+        CartItem cartItem= new CartItem();
+        cartItem.setCart(cart);
+        cartItem.setItem(item);
+        cartItem.setCount(count);
+
+        return cartItem;
+    }
+
+    public void addCount(int count){
+        this.count += count;
+    }
+
+
 }
