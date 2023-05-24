@@ -27,4 +27,9 @@ public class Cart extends BaseEntity  {
 //        return cart;
 //    }
 
+    public static Cart createCart(Member member){
+        Cart cart = new Cart();
+        cart.member = member;
+        return  cart;
+    }
 }
