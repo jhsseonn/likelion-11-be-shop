@@ -4,10 +4,7 @@ import com.likelion.beshop.dto.OrderDto;
 import com.likelion.beshop.dto.OrderHistDto;
 import com.likelion.beshop.dto.OrderItemDto;
 import com.likelion.beshop.entity.*;
-import com.likelion.beshop.repository.ItemImgRepository;
-import com.likelion.beshop.repository.ItemRepository;
-import com.likelion.beshop.repository.MemberRepository;
-import com.likelion.beshop.repository.OrderRepository;
+import com.likelion.beshop.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +29,8 @@ public class OrderService {
 
     private final ItemImgRepository itemImgRepository;
     private final MemberService memberService;
+
+    private final OrderItemRepository orderItemRepository;
 
     public Long order(OrderDto orderDto, String email){ // 파라미터로 OrderDto랑 email
 
@@ -98,6 +97,25 @@ public class OrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(EntityNotFoundException::new);
         order.cancelOrder();
+    }
+
+    public Long orders(List<OrderDto> orderDtoList, String email){
+
+        Member member = memberRepository.findByEmail(email);
+        List<OrderItem> orderItemList = new ArrayList<>();
+
+        for (OrderDto orderDto : orderDtoList) {
+            Item item = itemRepository.findById(orderDto.getItemId())
+                    .orElseThrow(EntityNotFoundException::new);
+
+            OrderItem orderItem = OrderItem.createOrderItem(item, orderDto.getCount());
+            orderItemList.add(orderItem);
+        }
+
+        Order order = Order.createOrder(member, orderItemList);
+        orderRepository.save(order);
+
+        return order.getId();
     }
 
 

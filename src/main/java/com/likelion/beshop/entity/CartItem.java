@@ -6,10 +6,10 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name="cart_item")
+@Table(name = "cart_item")
 @Getter
 @Setter
-public class CartItem extends BaseEntity{
+public class CartItem extends BaseEntity {
     // 장바구니 상품 번호
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,8 +30,8 @@ public class CartItem extends BaseEntity{
     @Column(nullable = false)
     private int count;
 
-    public static CartItem createCartItem(Item item, Cart cart, int count){
-        CartItem cartItem= new CartItem();
+    public static CartItem createCartItem(Item item, Cart cart, int count) {
+        CartItem cartItem = new CartItem();
         cartItem.setCart(cart);
         cartItem.setItem(item);
         cartItem.setCount(count);
@@ -39,9 +39,11 @@ public class CartItem extends BaseEntity{
         return cartItem;
     }
 
-    public void addCount(int count){
+    public void addCount(int count) {
         this.count += count;
     }
 
-
+    public void updateCount(int count){
+        this.count = count;
+    }
 }

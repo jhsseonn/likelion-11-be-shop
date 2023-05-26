@@ -55,7 +55,8 @@ public class ItemImgService {
 
             // 기존에 등록된 상품 이미지 파일이 있을 경우 해당 파일 삭제
             if(!StringUtils.isEmpty(savedItemImg.getImgName())) {
-                fileService.deleteFile(itemImgLocation);
+                fileService.deleteFile(itemImgLocation+"/"+
+                        savedItemImg.getImgName());
             }
             // 업데이트한 상품 이미지 파일 업로드
             String oriImgName = itemImgFile.getOriginalFilename();
