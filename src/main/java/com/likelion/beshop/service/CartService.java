@@ -2,6 +2,8 @@ package com.likelion.beshop.service;
 
 import com.likelion.beshop.dto.CartDetailDto;
 import com.likelion.beshop.dto.CartItemDto;
+import com.likelion.beshop.dto.CartOrderDto;
+import com.likelion.beshop.dto.OrderDto;
 import com.likelion.beshop.entity.Cart;
 import com.likelion.beshop.entity.CartItem;
 import com.likelion.beshop.entity.Item;
@@ -26,6 +28,7 @@ public class CartService {
     private final MemberRepository memberRepository;
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
+    private final OrderService orderService;
     public Long addCart(CartItemDto cartItemDto, String email){
         Item item = itemRepository.findById(cartItemDto.getItemId())
                 .orElseThrow(EntityNotFoundException::new);
@@ -34,14 +37,9 @@ public class CartService {
         Cart cart = cartRepository.findByMemberId(member.getId());
 
         if(cart == null){
-//            Cart newCart = new Cart();
             cart = Cart.createCart(member);
             cartRepository.save(cart);
         }
-
-//        System.out.println("item: "+item.toString());
-//        System.out.println("cart: "+cart.toString());
-//        System.out.println("count: "+cartItemDto.getCount());
 
         CartItem savedCartItem = cartItemRepository.findByCartIdAndItemId(cart.getId(), item.getId());
 
@@ -66,5 +64,49 @@ public class CartService {
         }
         cartDetailDtoList = cartItemRepository.findCartDetailDtoList(cart.getId());
         return cartDetailDtoList;
+    }
+
+    @Transactional(readOnly = true)
+    public boolean validateCartItem(Long cartItemId, String email){
+        Member member = memberRepository.findByEmail(email);
+        CartItem cartItem = cartItemRepository.findById(cartItemId)
+                .orElseThrow(EntityNotFoundException::new);
+        Member savedMember = cartItem.getCart().getMember();
+
+        if (member.getEmail() != savedMember.getEmail())
+            return false;
+        return true;
+    }
+
+    public void updateCartItemCount(Long cartItemId, int count){
+        CartItem cartItem = cartItemRepository.findById(cartItemId)
+                .orElseThrow(EntityNotFoundException::new);
+        cartItem.updateCount(count);
+    }
+
+    public void deleteCartItem(Long cartItemId){
+        CartItem cartItem = cartItemRepository.findById(cartItemId)
+                .orElseThrow(EntityNotFoundException::new);
+        cartItemRepository.delete(cartItem);
+    }
+
+    public Long orderCartItem(List<CartOrderDto> cartOrderDtoList, String email){
+        List<OrderDto> orderDtoList = new ArrayList<>();
+
+        for (CartOrderDto cartOrderDto : cartOrderDtoList){
+            CartItem cartItem = cartItemRepository.findById(cartOrderDto.getCartItemId())
+                    .orElseThrow(EntityNotFoundException::new);
+            OrderDto orderDto = new OrderDto();
+            orderDto.setItemId(cartItem.getItem().getId());
+            orderDto.setCount(cartItem.getCount());
+            orderDtoList.add(orderDto);
+        }
+
+        Long orderId = orderService.orders(orderDtoList, email);
+
+        for(CartOrderDto cartOrderDto : cartOrderDtoList){
+            deleteCartItem(cartOrderDto.getCartItemId());
+        }
+        return orderId;
     }
 }

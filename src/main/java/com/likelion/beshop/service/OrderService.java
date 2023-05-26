@@ -94,4 +94,21 @@ public class OrderService {
         order.setOrderStatus(CANCEL);
     }
 
+    public Long orders(List<OrderDto> orderDtoList, String email){
+        Member member = memberRepository.findByEmail(email);
+        List<OrderItem> orderItemList = new ArrayList<>();
+
+        for (OrderDto orderDto : orderDtoList){
+            //25나 40이 담겨야 정상인데 냅다 101이 나와버림
+            System.out.println("주문 상품에 담긴 아이템 아이디: "+orderDto.getItemId());
+            Item item = itemRepository.findById(orderDto.getItemId())
+                    .orElseThrow(EntityNotFoundException::new);
+            OrderItem orderItem = OrderItem.createOrderItem(item, orderDto.getCount());
+            orderItemList.add(orderItem);
+        }
+        Order order = Order.createOrder(member, orderItemList);
+        orderRepository.save(order);
+
+        return order.getId();
+    }
 }
