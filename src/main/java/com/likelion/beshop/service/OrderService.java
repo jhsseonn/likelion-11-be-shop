@@ -87,4 +87,21 @@ public class OrderService {
         Order order = orderRepository.findById(orderId).orElseThrow(EntityNotFoundException::new); //파라미터로 주문 번호 받아오기
         order.cancelOrder(); //해당 주문 취소 메소드 호출 -> 주문 취소 상태로 변경시, 변경 감지 기능에 의해 트랜잭션 끝날 때 update 쿼리 실행
     }
+
+    public Long orders(List<OrderDto> orderDtoList, String email){
+        Member member = memberRepository.findByEmail(email);
+        List<OrderItem> orderItemList = new ArrayList<>();
+
+        for(OrderDto orderDto : orderDtoList){
+            Item item = itemRepository.findById(orderDto.getItemId()).orElseThrow(EntityNotFoundException::new);
+
+            OrderItem orderItem = OrderItem.createOrderItem(item,orderDto.getCount());
+            orderItemList.add(orderItem);
+        }
+
+        Order order = Order.createOrder(member,orderItemList);
+        orderRepository.save(order);
+
+        return order.getId();
+    }
 }
