@@ -218,7 +218,7 @@
       <tbody>
       <tr th:each="cartItem : ${cartItems}">
         <td class="text-center align-middle">
-          <input type="checkbox" name="cartChkBox" th:value="${cartItem.cartItemId}">
+          <input type="checkbox" name="cartChkBox" th:value="${cartItem.itemId}">
         </td>
         <td class="d-flex">
           <div class="repImgDiv align-self-center">
@@ -228,22 +228,22 @@
             <span th:text="${cartItem.itemName}" class="fs24 font-weight-bold"></span>
             <div class="fs18 font-weight-light">
                             <span class="input-group mt-2">
-                                <span th:id="'price_' + ${cartItem.cartItemId}"
+                                <span th:id="'price_' + ${cartItem.itemId}"
                                       th:data-price="${cartItem.price}"
                                       th:text="${cartItem.price} + '원'" class="align-self-center mr-2">
                                 </span>
-                                <input type="number" name="count" th:id="'count_' + ${cartItem.cartItemId}"
+                                <input type="number" name="count" th:id="'count_' + ${cartItem.itemId}"
                                        th:value="${cartItem.count}" min="1"
                                        onchange="changeCount(this)" class="form-control mr-2" >
                                 <button type="button" class="close" aria-label="Close">
-                                    <span aria-hidden="true" th:data-id="${cartItem.cartItemId}" onclick="deleteCartItem(this)">&times;</span>
+                                    <span aria-hidden="true" th:data-id="${cartItem.itemId}" onclick="deleteCartItem(this)">&times;</span>
                                 </button>
                             </span>
             </div>
           </div>
         </td>
         <td class="text-center align-middle">
-                    <span th:id="'totalPrice_' + ${cartItem.cartItemId}"
+                    <span th:id="'totalPrice_' + ${cartItem.itemId}"
                           name="totalPrice" th:text="${cartItem.price * cartItem.count} + '원'">
                     </span>
         </td>

@@ -13,6 +13,7 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
     // 특정 상품이 카트에 존재하는지 조회
     CartItem findByCartIdAndItemId(Long cartId, Long itemId);
 
+    //
     @Query("select new com.likelion.beshop.dto.CartDetailDto(ci.id, i.itemName, i.price, ci.count, im.imgPath) " +
             "from CartItem ci, ItemImg im " +
             "join ci.item i " +

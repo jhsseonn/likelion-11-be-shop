@@ -29,7 +29,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ItemImgRepository itemImgRepository;
 
-    // 주문 로직
+    // 각 상품 페이지에서 바로 주문하는 로직
     public Long order(OrderDto orderDto, String email) {
 
         // 주문할 상품 조회
@@ -112,8 +112,36 @@ public class OrderService {
         return true;
     }
 
+    // 주문 취소
     public void cancelOrder(long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(EntityNotFoundException::new);
         order.cancelOrder();
+    }
+
+    // 장바구니 상품 주문
+    public Long orders(List<OrderDto> orderDtoList, String email) {
+        // 이메일로 사용자 조회
+        Member member = memberRepository.findByEmail(email);
+
+        // 주문 완료된 상품을 저장할 리스트 생성
+        List<OrderItem> orderItemList = new ArrayList<>();
+
+        // 주문 dto 돌며
+        for (OrderDto orderDto : orderDtoList) {
+            // 주문 dto의 상품 id를 통해 상품 조회
+            Item item = itemRepository.findById(orderDto.getItemId()).orElseThrow(EntityNotFoundException::new);
+            // 조회한 상품과 주문 페이지의 수량을 통해 주문 상품 생성
+            OrderItem orderItem = OrderItem.createOrderItem(item, orderDto.getCount());
+            // 주문 상품 리스트에 주문 상품 추가
+            orderItemList.add(orderItem);
+        }
+
+        // 멤버와 주문한 상품 리스트를 통해 주문 생성
+        Order order = Order.createOrder(member, orderItemList);
+        // db에 저장
+        orderRepository.save(order);
+
+        // 주문 id 리턴
+        return order.getId();
     }
 }

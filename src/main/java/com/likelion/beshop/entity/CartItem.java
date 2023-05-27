@@ -42,4 +42,9 @@ public class CartItem extends Base {
     public void addCount(int count) {
         this.count += count;
     }
+
+    // 장바구니 수량 수정
+    public void updateCount(int count) {
+        this.count = count;
+    }
 }

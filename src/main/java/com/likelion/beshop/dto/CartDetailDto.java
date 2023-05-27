@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CartDetailDto {
-    private Long cartItemId;
+    private Long itemId;
     private String itemName;
     private int price;
     private int count;
@@ -14,7 +14,7 @@ public class CartDetailDto {
 
     // 생성자
     public CartDetailDto(Long cartItemId, String itemName, int price, int count, String imgPath) {
-        this.cartItemId = cartItemId;
+        this.itemId = cartItemId;
         this.itemName = itemName;
         this.price = price;
         this.count = count;
