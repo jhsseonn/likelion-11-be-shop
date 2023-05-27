@@ -39,5 +39,13 @@ public class CartItem extends BaseEntity{
         this.count += count;
     }
 
+    public void updateCount(int count){
+        if (count < 0) {
+            throw new IllegalArgumentException("수량은 음수일 수 없습니다.");
+        }
+
+        this.count = count;
+    }
+
 
 }
