@@ -100,4 +100,25 @@ public class OrderService {
         // 해당 주문 취소 메소드 호출
         //→ 주문 취소 상태로 변경 시, 변경 감지 기능에 의해 트랜잭션 끝날 때 update 쿼리 실행
     }
+
+    public Long orders(List<OrderDto> orderDtoList, String email){ // 파라미터로는 OrderDto와 이메일을 받아온다.
+
+        Member member = memberRepository.findByEmail(email); // email로 회원 조회해 새로운 member 객체에 저장
+
+        List<OrderItem> orderItemList = new ArrayList<>(); // 새로운 orderItemList 생성
+
+        // orderDtoList 돌면서 orderDto로부터 상품 아이디 받아 상품 조회해 item 객체에 저장(예외처리 해주기)
+        for(OrderDto orderDto : orderDtoList){
+            Item item = itemRepository.findById(orderDto.getItemId())
+                    .orElseThrow(EntityNotFoundException::new);
+            // 새로운 orderItem 객체 생성해 orderItemList에 추가(OrderItem의 createOrderItem 메서드 이용)
+            OrderItem orderItem = OrderItem.createOrderItem(item, orderDto.getCount()); // 주문할 상품 엔티티와 주문 수량으로 주문 상품 생성
+            orderItemList.add(orderItem); // 생성한 주문 상품을 주문 상품 리스트에 추가
+        }
+        // Order의 createOrder 이용하여 orderItemList로 주문 생성하기
+        Order order = Order.createOrder(member, orderItemList); // 회원 정보와 주문 상품 리스트 정보로 주문 생성
+        orderRepository.save(order); // orderRepository 메서드 이용하여 order 저장
+
+        return  order.getCode(); // order 객체 아이디 반환
+    }
 }

@@ -2,14 +2,14 @@ package com.likelion.beshop.service;
 
 import com.likelion.beshop.dto.CartDetailDto;
 import com.likelion.beshop.dto.CartItemDto;
-import com.likelion.beshop.entity.Cart;
-import com.likelion.beshop.entity.CartItem;
-import com.likelion.beshop.entity.Item;
-import com.likelion.beshop.entity.Member;
+import com.likelion.beshop.dto.CartOrderDto;
+import com.likelion.beshop.dto.OrderDto;
+import com.likelion.beshop.entity.*;
 import com.likelion.beshop.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.util.StringUtils;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
@@ -24,6 +24,7 @@ public class CartService {
     private  final MemberRepository memberRepository;
     private  final CartRepository cartRepository;
     private  final CartItemRepository cartItemRepository;
+    private  final OrderService orderService;
 
     // cartItemDto, email을 매개변수로 받아 장바구니에 상품 담는 로직
     public Long addCart(CartItemDto cartItemDto, String email) {
@@ -70,5 +71,66 @@ public class CartService {
         cartDetailDtoList = cartItemRepository.findCartDetailDtoList(cart.getCode());
 
         return cartDetailDtoList; // 최종적으로 cartDetailDtoList 반환
+    }
+
+    @Transactional(readOnly = true)
+    public boolean validateCartItem(Long cartItemId, String email){
+        Member curMember = memberRepository.findByEmail(email); // email로 회원 정보 찾아 현재 로그인 한 회원 객체 생성해줌
+        // 장바구니 상품 아이디로 장바구니 상품 찾아 새로운 장바구니 상품 객체로 넘겨줌(예외 처리하기)
+        CartItem cartItem = cartItemRepository.findById(cartItemId)
+                .orElseThrow(EntityNotFoundException::new);
+        Member savedMember = cartItem.getCart().getMember(); //  장바구니 상품 객체에서 해당 상품이 속한 장바구니를 소유한 회원을 찾아 savedMember 회원 객체로 넘겨줌
+
+        // 현재 로그인한 회원의 이메일과 장바구니를 소유한 회원의 이메일이 다른 경우 false 리턴, 같으면 true 리턴해줌
+        if(!StringUtils.equals(curMember.getEmail(), savedMember.getEmail())){
+            return false;
+        }
+        return true;
+    }
+
+    public void updateCartItemCount(Long cartItemId, int count){
+
+        // cartItemId로 cartItem 찾아 새로운 객체에 할당(예외처리 확실히 해주기)
+        CartItem cartItem = cartItemRepository.findById(cartItemId)
+                .orElseThrow(EntityNotFoundException::new);
+
+        // 할당된 객체 updateCount 메소드 호출
+        cartItem.updateCount(count);
+    }
+
+    public void deleteCartItem(Long cartItemId) {
+        // cartItemId를 받아 아이디로 cartItem 검색 및 호출해 새로운 cartItem 객체에 넣기(예외처리 확실히)
+        CartItem cartItem = cartItemRepository.findById(cartItemId)
+                .orElseThrow(EntityNotFoundException::new);
+        cartItemRepository.delete(cartItem); // 해당 cartItem 객체 삭제(cartItemRepository 메서드 사용)
+    }
+
+    public Long orderCartItem(List<CartOrderDto> cartOrderDtoList, String email){
+        List<OrderDto> orderDtoList = new ArrayList<>(); // orderDtoList 새로 생성
+
+        // cartOrderDtoList 돌면서 cartOrderDto들 CartItemId 가져와 cartItem 조회(예외처리해주기)
+        for (CartOrderDto cartOrderDto : cartOrderDtoList) {
+            CartItem cartItem = cartItemRepository
+                    .findById(cartOrderDto.getCartItemId())
+                    .orElseThrow(EntityNotFoundException::new);
+
+            // 새로운 orderDto 생성해 orderDto에 ItemId와 count set해주고 orderDtoList에 추가
+            OrderDto orderDto = new OrderDto();
+            orderDto.setItemId(cartItem.getItem().getId());
+            orderDto.setCount(cartItem.getNum());
+            orderDtoList.add(orderDto);
+        }
+
+        // for문 다 돌았으면 orderService의 orders 메서드로 orderId 반환 받아 새로운 변수 orderId로 넘겨주기
+        Long orderId = orderService.orders(orderDtoList, email);
+
+        //  새로운 orderDto에 저장하는 과정 끝났으면 cartOrderDto 장바구니에서 삭제하는 로직 추가
+        for (CartOrderDto cartOrderDto : cartOrderDtoList) {
+            CartItem cartItem = cartItemRepository
+                    .findById(cartOrderDto.getCartItemId())
+                    .orElseThrow(EntityNotFoundException::new);
+            cartItemRepository.delete(cartItem);
+        }
+        return orderId; // 최종적으로 orderId 반환
     }
 }
