@@ -1,15 +1,13 @@
-package com.likelion.beshop;
+package com.likelion.board;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BeShopApplication {
+public class BoardApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BeShopApplication.class, args);
+		SpringApplication.run(BoardApplication.class, args);
 	}
 
 }
-
-
