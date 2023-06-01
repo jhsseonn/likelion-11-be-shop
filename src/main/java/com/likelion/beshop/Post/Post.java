@@ -25,13 +25,11 @@ public class Post{
     private PostStatus status;
 
     public void updatePost(PostFromDto postFromDto) {
-
         this.title = postFromDto.getTitle();
         this.body = postFromDto.getBody();
         this.author = postFromDto.getAuthor();
-        this.date = postFromDto.getDate();
+        this.date = LocalDateTime.now(); // 현재 시간으로 설정
         this.status = postFromDto.getStatus();
-
     }
 
 
